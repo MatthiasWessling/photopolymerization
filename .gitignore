@@ -1,0 +1,28 @@
+# Publisher PDFs (copyrighted; keep local only)
+Literature/*.pdf
+Literature/**/*.pdf
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# LaTeX intermediates (keep source .tex/.bib and compiled lab-note PDFs)
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.out
+*.toc
+*.blg
+*.synctex.gz
+*.synctex(busy)
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
