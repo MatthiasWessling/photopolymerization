@@ -1,0 +1,47 @@
+{
+  "chemistry_key": "zhu_2020_pegda575_eosinY_network",
+  "initiator_class": "type_II",
+  "formulation_label": "PEGDA Mn=575 g/mol aqueous hydrogel; network constants only (eosin Y bleaching ODEs off)",
+  "do_not_mix_with": [
+    "montgomery_2022_pegda250_irgacure819",
+    "slutzky_2019_pegda575_darocur_jet",
+    "dobson_2024_hdda_irgacure819"
+  ],
+  "literature": {
+    "zhu_2020": "10.1016/j.jmps.2020.104041",
+    "equations": "Zhu Eqs. 21, 26, 32-38; Table A2 C0. Eosin Y Eqs. 3-8 are not implemented."
+  },
+  "eosin_Y_bleaching_odes": "off",
+  "parameters": {
+    "C0_volpct": {
+      "value": 3.45,
+      "units": "vol percent",
+      "source": "Zhu 2020 Table A2, estimated by fitting",
+      "status": "transcribed"
+    },
+    "T": {
+      "value": 300.0,
+      "units": "K",
+      "source": "Zhu 2020 Table A2",
+      "status": "transcribed"
+    },
+    "f": {
+      "value": 2.0,
+      "units": "1",
+      "source": "PEGDA diacrylate; Zhu Eqs. 32-35 k in {0,1,2}",
+      "status": "transcribed"
+    },
+    "M_PEGDA": {
+      "value": 0.575,
+      "units": "kg/mol",
+      "source": "Zhu PEGDA 575 hydrogel",
+      "status": "transcribed"
+    },
+    "rho_pegda": {
+      "value": 1120.0,
+      "units": "kg/m^3",
+      "source": "Assumed neat-PEGDA density for mol/m^3 conversion of G only",
+      "status": "assumed"
+    }
+  }
+}

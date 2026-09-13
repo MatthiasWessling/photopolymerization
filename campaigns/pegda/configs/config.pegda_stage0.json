@@ -1,0 +1,6 @@
+{
+  "campaign": "pegda",
+  "stage": "stage0",
+  "claim": "Every coefficient in the Montgomery 2022 PEGDA-250 Type-I book has provenance or an explicit still_required flag.",
+  "parameter_book": "parameter_book.montgomery_2022.json"
+}

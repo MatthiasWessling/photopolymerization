@@ -1,0 +1,166 @@
+\chapter{Literature study and research gaps}
+\label{ch:literature}
+
+\section{Scope of the corpus}
+
+The working library comprises five unique journal papers, the supporting information of \citet{Dobson2024}, and a duplicate file of \citet{Meenakshisundaram2020} that must not be cited twice.
+Supporting classics (oxygen inhibition, reciprocity, Macosko--Miller gelation, CLIP, frontal photopolymerization) are used as they appear in those reports, not as an unbounded review of photopolymer science.
+
+The five papers do not compete to be ``the PEGDA model.''
+Each \emph{owns a layer} (Table~\ref{tab:papers} in Chapter~\ref{ch:background}).
+A flowing grayscale hydrogel would need all layers, inherited from the paper that actually closed each one.
+
+\section{High-fidelity kinetics: Dobson and Bowman}
+
+\citet{Dobson2024} construct a first-principles description of multifunctional acrylate photopolymerization with a large species set: photoinitiator, primary radicals, short and network-bound macroradicals, unreacted and partially reacted monomer, oxygen, and terminated polymer.
+Mobility is tied to free volume; termination includes reaction-diffusion control and chain-length effects; heat release is optional.
+The illustrated chemistry is 1,6-hexanediol diacrylate (HDDA) with Irgacure~819, not PEGDA.
+
+The campaign uses this paper as a \emph{reference ontology}, not as production rates.
+The temptation to ``implement Dobson first in 2-D'' is the usual way a PhD project becomes un-debuggable: too many species, too many spatial operators, and no algebraic limit that can fail loudly.
+If, after a correct Montgomery transcription, equal-dose FTIR still cannot be organised, Dobson's chain-length $k_t$ is the parked refinement---not the first commit.
+
+\section{Production spatial kinetics: Montgomery et al.}
+
+\citet{Montgomery2022} is the production constitutive law for Type~I PEGDA~$250$ / 0.1~wt\% Irgacure~819 in a thin film.
+Four species are tracked: initiator $C_I$, radicals $C_R$, oxygen $C_O$, monomer (acrylate groups) $C_M$.
+With diffusion,
+\begin{equation}
+  \partial_t C_\alpha = \nabla\cdot\bigl(D_\alpha(p)\nabla C_\alpha\bigr) + R_\alpha,
+\end{equation}
+and $R_\alpha$ given by their Eqs.~16--19.
+Photolysis is first order in remaining initiator, with $\beta=2.70\times10^{-3}\,\mathrm{s^2\,kg^{-1}}$ multiplying $I$ in $\mathrm{W\,m^{-2}}$ so that $\beta I$ is a frequency.
+Two radicals are produced per cleavage ($m=2$).
+Termination is $2k_t C_R^2$ plus oxygen inhibition $k_O C_O C_R$.
+
+The closures (their Eqs.~22--27, Table~2) make $k_p$ and $k_t$ conversion-dependent:
+\begin{align}
+  k_p(p) &= \frac{k_{p0}}{1+(k_{p0}/k_{p,D0})\exp(c_p p)}, \\
+  k_t(p) &= \Bigl[\tfrac{1}{k_{t,\mathrm{SD}}}+\tfrac{\exp(c_p p)}{k_{t,\mathrm{TD0}}}\Bigr]^{-1}
+           + C_{RD}(1-p)k_p(p).
+\end{align}
+(The paper writes $\exp(cp)$ for $\exp(c p)$ with $c$ the relative viscosity coefficient.)
+Harmonic liquid--solid diffusivities (Eq.~28, Table~3) drop by four orders of magnitude from liquid to solid.
+Beer--Lambert attenuation (Eqs.~4--6) uses molar initiator absorptivity, polymer versus monomer absorption, and an optional photoabsorber term $w A_{\mathrm{abs}}$.
+
+The optical boundary condition (Eq.~7) superposes Gaussians of radius $\sigma=17.7\,\mu\mathrm{m}$ on a $50\,\mu\mathrm{m}$ pixel pitch, with $I_{\mathrm{pixel}}=41.08\,\mathrm{W\,m^{-2}}$ and $I_{\mathrm{ideal}}=64\,\mathrm{W\,m^{-2}}$.
+G0 is full intensity and G100 is dark.
+Their multilayer prints with 0.06~wt\% absorber are a different optical depth than the FTIR cell.
+
+\paragraph{What we did not take from this paper as gospel.}
+The Gaussian kernel is a fallback, not a measured DMD map.
+The linear G0--G100 map used in code is \emph{assumed}, not their SI RGB calibration.
+Table~2 rates are a fit to one thin-film recipe; they are not universal PEGDA constants.
+Dissolved oxygen is not a Table~2 entry; the campaign flags $C_{O,0}$ as \stillreq.
+
+\section{Projection kinematics: Meenakshisundaram, Sturm and Williams}
+
+\citet{Meenakshisundaram2020} model scanning-mask projection vat photopolymerization.
+The scientific object is the surface irradiance and the accumulated dose under a measured (generally non-Gaussian) pixel kernel, discrete frames, and a scan velocity.
+They compare a Jacobs-style cure overlay to printed dimensions; that overlay is a diagnostic, not a species conversion.
+
+The campaign Stage~3 implements conservation and bleed tests on Montgomery's Gaussian as a \emph{stand-in}.
+A \tagmatch{} on Stage~3 requires a camera or radiometer map of the projector actually used, or digitization of their measured PSF.
+Scan dose scaling as $1/v$ is a dwell identity for a translating compact pattern, not a statement that $p$ is independent of speed.
+
+\section{Plug flow: Slutzky, Stone and Nunes}
+
+\citet{Slutzky2019} pass a sheathed aqueous jet of PEGDA~$575$ (54~vol\%), water, dye, and 4~vol\% 2-hydroxy-2-methylpropiophenone through a $L=2.3\,\mathrm{mm}$ UV slit.
+Steady plug flow gives
+\begin{equation}
+  U\frac{\mathrm{d}C_i}{\mathrm{d}x}=R_i\bigl(C,k_d(x)\bigr),\qquad
+  k_d=0\text{ outside }[0,L].
+\end{equation}
+Their Eqs.~1a--d use $k_d=\phi\varepsilon I$ with $I$ in Einstein~$\mathrm{m^{-2}\,s^{-1}}$, termination $k_t R^2$ (no extra factor of two), and one radical per photolysis as written in their Table~1.
+Taking the ratio of monomer and oxygen balances at constant $k_p,k_O$ yields Eq.~3,
+\begin{equation}
+  \frac{C_O}{C_{O,0}}=\Bigl(\frac{C_M}{C_{M,0}}\Bigr)^{k_O/k_p}.
+\end{equation}
+Gelation for comparison to fiber onset is the operational predicate $M/M_0=0.98$ (about $2\%$ double bonds reacted), following microfluidic convention \citep{Dendukuri2008}---not Zhu's $P_{\mathrm{gel}}$.
+Oxygen diffusion into the $40\,\mu\mathrm{m}$ jet during residence is argued small relative to advection of the dissolved inventory.
+
+Critical speed scales as $U_c\sim L k_d [\mathrm{PI}]_0/[\mathrm{O}_2]_0$.
+Pulsed light organises fiber length by $t_{\mathrm{uv}}/t_L$ with $t_L=L/U$.
+
+This chemistry must not share a parameter book with Montgomery PEGDA~$250$/Irgacure.
+
+\section{Network mechanics: Zhu et al.}
+
+\citet{Zhu2020} couple Type~II eosin~Y / TEOA bleaching kinetics to acrylate conversion and then to a modified Macosko--Miller recursive model with intramolecular loops.
+The campaign implements \emph{only} the network post-processor (their Eqs.~21, 26, 32--38).
+Eosin bleaching ODEs (their Eqs.~3--8) remain off unless a Type~II kinetics branch is explicitly opened.
+
+The intermolecular probability is
+\begin{equation}
+  \theta=\frac{[\mathrm{PEGDA}]_0}{[\mathrm{PEGDA}]_0+2C_0},
+\end{equation}
+with fitted $C_0=3.45$~vol\% (Table~A2).
+Then $P_{\mathrm{gel}}=(1-\theta)/(2\theta)=C_0/[\mathrm{PEGDA}]_0$.
+If $[\mathrm{PEGDA}]_0\le C_0$, the precursor never gels at $p=1$.
+Without loops, $\eta=p^2$.
+With loops, $\eta$ is assembled from probabilities that $m\ge 3$ carbon ends lead to the infinite network.
+The phantom modulus is $G=\eta N_A[\mathrm{PEGDA}]_0 k_B T$, so $G/G_{\mathrm{ideal}}=\eta$.
+
+\section{Supporting literature that the five papers rest on}
+
+\paragraph{Oxygen.}
+\citet{Decker1985} established the kinetic role of $\mathrm{O}_2$ as a radical scavenger.
+\citet{Dendukuri2008} showed that PDMS walls replenish oxygen by diffusion and set a dead zone; that is a different experiment from Slutzky's jet.
+\citet{Tumbleston2015} turned a persistent inhibited liquid layer into CLIP.
+
+\paragraph{Reciprocity.}
+\citet{Wydra2014} showed that BisGMA/TEGDMA does not obey $I\times t$ equivalence when bimolecular termination dominates.
+\citet{Lin2019} organised related effects of oxygen, viscosity, and time-varying intensity.
+
+\paragraph{Networks.}
+\citet{Flory1941} and \citet{Macosko1976,Miller1976} are the gelation and post-gel recursive backbone.
+\citet{Zhong2016} quantified how primary loops reduce elasticity.
+\citet{Anseth1994} and \citet{Benson1959} frame diffusion-controlled termination.
+\citet{Cabral2005} described light-driven polymerization fronts.
+\citet{Goodner2002} coupled heat and mass transfer in thick films.
+\citet{Dadashi2016} reviews Type~I versus Type~II initiation.
+\citet{Cramer2001} marks thiol--ene as a different polymerization, parked here.
+
+\section{Working curves, CLIP, and why they are not the polymer state}
+
+Stereolithography practice has long used a working curve $C_d=D_p\ln(E/E_c)$ \citep{Jacobs1992book}.
+$D_p$ is an effective optical penetration; $E_c$ is a critical exposure at which a gel-like depth is first observed for a given resin and process.
+The construction is invaluable for machine calibration.
+It collapses oxygen, termination order, grayscale bleed, and flow into two fitted numbers.
+Those numbers change when the lamp spectrum, inhibitor, or speed changes, which is exactly the symptom that they are not constitutive.
+
+Continuous liquid interface production \citep{Tumbleston2015} exploits a persistent oxygen-inhibited dead zone so that a part can be drawn continuously from a vat.
+That dead zone is a \emph{diffusive} oxygen supply from a permeable window, closer in spirit to \citet{Dendukuri2008} than to \citet{Slutzky2019}, whose jet carries its oxygen inventory by advection.
+A CLIP-style boundary condition is therefore a later Stage~4 variant, not a reason to replace $p$ with $C_d$.
+
+Frontal photopolymerization \citep{Cabral2005} is another macroscopic signature of the same microscopic rates: an optically thick, exothermic film can propagate a conversion front.
+Stage~4's Beer--Lambert front at $H=200\,\mu\mathrm{m}$ is a thin, isothermal cousin of that phenomenon, not a heat-release model \citep{Goodner2002}.
+
+\section{Undermind synthesis versus what was coded}
+
+A broader modelling note exists in the DFG Undermind workspace (unified photopolymerization roadmap and Stage~1 PEGDA implementation notes).
+That synthesis is right about history-dependent kinetics, independent pattern and resin velocities, and the need for a loop-aware network closure.
+
+It is not internally consistent as an \emph{execution order}.
+One passage suggests implementing Dobson first, or making the first solver two-dimensional with a measured PSF.
+The Stage~1 PEGDA notes, by contrast, specify a local four-species ODE, BDF integration, and Dobson as a check.
+
+The code follows the Stage~1 notes and the local five-PDF ladder.
+Undermind extras (Dendukuri walls, Wydra named tests, four in-house reactors, $\sim 80\,\mu\mathrm{m}$ flowing DMD patches) are treated as future \emph{tests and boundary conditions}, not as extra architecture in Stages~0--6.
+
+\section{The gap closed by this campaign}
+
+Before this repository, the group had papers, not a citable stack.
+The specific gap was operational:
+
+\begin{enumerate}
+  \item No provenance-locked parameter books, so Montgomery $\beta$ could silently be used with Slutzky Einstein intensities.
+  \item No local ODE with named gates (dark $p=0$, positivity, failed reciprocity, oxygen induction).
+  \item No constant-rate fork to test Slutzky Eq.~3 as an identity rather than a fitted curve.
+  \item No projection engine that is forbidden from reporting conversion.
+  \item No 1-D reaction--diffusion with the \emph{same} cell RHS as the ODE.
+  \item No plug-flow solver on Slutzky's stoichiometry.
+  \item No network post-processor that cannot retune $k_p$.
+\end{enumerate}
+
+The remaining gap is \emph{quantitative match} under the same formulation (Chapter~\ref{ch:matching}), plus parked physics (heat, scattering, NS--gel, inverse DMD).

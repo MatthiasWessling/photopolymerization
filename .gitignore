@@ -2,6 +2,9 @@
 Literature/*.pdf
 Literature/**/*.pdf
 
+# Campaign outputs
+outputs/
+
 # Python
 .venv/
 __pycache__/

@@ -1,0 +1,225 @@
+{
+  "chemistry_key": "montgomery_2022_pegda250_irgacure819",
+  "initiator_class": "type_I",
+  "formulation_label": "PEGDA Mn=250 g/mol, 0.1 wt% Irgacure 819, thin FTIR cell",
+  "do_not_mix_with": [
+    "zhu_2020_pegda575_eosinY_TEOA",
+    "slutzky_2019_pegda575_jet",
+    "dobson_2024_hdda_irgacure819"
+  ],
+  "literature": {
+    "montgomery_2022": "10.1016/j.eml.2022.101714",
+    "equations": "Montgomery Eqs. 4-6 (Beer-Lambert), 16-19 (species+diffusion), 22-27 (kp, kt), 28 (D(p)); Tables 1-3"
+  },
+  "intensity_convention": {
+    "I_units": "W/m^2",
+    "beta_units": "s^2/kg",
+    "note": "beta * I has units 1/s. Recalibrate beta if I is converted from mW/cm^2 without converting beta."
+  },
+  "parameters": {
+    "m": {
+      "value": 2.0,
+      "units": "1",
+      "source": "Montgomery 2022: two radicals per Irgacure 819 cleavage",
+      "status": "transcribed"
+    },
+    "beta": {
+      "value": 2.70e-3,
+      "units": "s^2/kg",
+      "source": "Montgomery 2022 Table 2",
+      "status": "transcribed"
+    },
+    "kp0": {
+      "value": 1.86,
+      "units": "m^3/mol/s",
+      "source": "Montgomery 2022 Table 2",
+      "status": "transcribed"
+    },
+    "kp_D0": {
+      "value": 8.99e8,
+      "units": "m^3/mol/s",
+      "source": "Montgomery 2022 Table 2",
+      "status": "transcribed"
+    },
+    "c_p": {
+      "value": 34.15,
+      "units": "1",
+      "source": "Montgomery 2022 Table 2, relative viscosity coefficient c",
+      "status": "transcribed"
+    },
+    "kt_SD": {
+      "value": 4.39e3,
+      "units": "m^3/mol/s",
+      "source": "Montgomery 2022 Table 2, kSD segmental diffusion",
+      "status": "transcribed"
+    },
+    "kt_TD0": {
+      "value": 1.00e4,
+      "units": "m^3/mol/s",
+      "source": "Montgomery 2022 Table 2",
+      "status": "transcribed"
+    },
+    "C_RD": {
+      "value": 1.01,
+      "units": "1",
+      "source": "Montgomery 2022 Table 2",
+      "status": "transcribed"
+    },
+    "k_oxygen": {
+      "value": 3.50e3,
+      "units": "m^3/mol/s",
+      "source": "Montgomery 2022 Table 2",
+      "status": "transcribed"
+    },
+    "rho_resin": {
+      "value": 1110.0,
+      "units": "kg/m^3",
+      "source": "Typical PEGDA-250 density ~1.11 g/mL (supplier SDS order of magnitude)",
+      "status": "assumed"
+    },
+    "M_PEGDA": {
+      "value": 0.250,
+      "units": "kg/mol",
+      "source": "Montgomery 2022 materials: Mn = 250 g/mol",
+      "status": "transcribed"
+    },
+    "f_acrylate": {
+      "value": 2.0,
+      "units": "1",
+      "source": "PEGDA diacrylate functionality",
+      "status": "transcribed"
+    },
+    "C_M0": {
+      "value": 8880.0,
+      "units": "mol/m^3",
+      "source": "calculated: f * rho / M_PEGDA = 2 * 1110 / 0.250",
+      "status": "calculated"
+    },
+    "w_PI": {
+      "value": 0.001,
+      "units": "1",
+      "source": "Montgomery 2022: 0.1 wt% Irgacure 819",
+      "status": "transcribed"
+    },
+    "M_PI": {
+      "value": 0.41855,
+      "units": "kg/mol",
+      "source": "Irgacure 819 molar mass",
+      "status": "transcribed"
+    },
+    "C_I0": {
+      "value": 2.651,
+      "units": "mol/m^3",
+      "source": "calculated: w_PI * rho / M_PI",
+      "status": "calculated"
+    },
+    "C_R0": {
+      "value": 0.0,
+      "units": "mol/m^3",
+      "source": "dark initial condition",
+      "status": "assumed"
+    },
+    "C_O0": {
+      "value": 1.0,
+      "units": "mol/m^3",
+      "source": "order-of-magnitude air-saturated organic; not reported as a Montgomery Table 2 entry",
+      "status": "still_required"
+    },
+    "I_ref": {
+      "value": 64.0,
+      "units": "W/m^2",
+      "source": "Montgomery 2022 Table 1 I_ideal of projector",
+      "status": "transcribed"
+    },
+    "alpha_I": {
+      "value": 45.83,
+      "units": "m^2/mol",
+      "source": "Montgomery 2022 Table 1",
+      "status": "transcribed"
+    },
+    "A_monomer": {
+      "value": 0.0,
+      "units": "1/m",
+      "source": "Montgomery 2022 Table 1",
+      "status": "transcribed"
+    },
+    "A_polymer": {
+      "value": 1.81e3,
+      "units": "1/m",
+      "source": "Montgomery 2022 Table 1",
+      "status": "transcribed"
+    },
+    "A_absorber": {
+      "value": 1.23e5,
+      "units": "1/m",
+      "source": "Montgomery 2022 Table 1; multiplies weight-percent w in Eq. 6",
+      "status": "transcribed"
+    },
+    "w_absorber": {
+      "value": 0.0,
+      "units": "wt percent",
+      "source": "Default FTIR-like cell has no added photoabsorber. Montgomery multilayer example uses 0.06 wt%; override in Stage 4 thick-film config.",
+      "status": "assumed"
+    },
+    "I_pixel": {
+      "value": 41.08,
+      "units": "W/m^2",
+      "source": "Montgomery 2022 Table 1",
+      "status": "transcribed"
+    },
+    "sigma_pixel": {
+      "value": 1.77e-5,
+      "units": "m",
+      "source": "Montgomery 2022 Table 1 beam radius",
+      "status": "transcribed"
+    },
+    "D_I_liquid": {
+      "value": 1.00e-10,
+      "units": "m^2/s",
+      "source": "Montgomery 2022 Table 3 citing [34]",
+      "status": "transcribed"
+    },
+    "D_I_solid": {
+      "value": 1.00e-14,
+      "units": "m^2/s",
+      "source": "Montgomery 2022 Table 3",
+      "status": "transcribed"
+    },
+    "D_R_liquid": {
+      "value": 1.00e-10,
+      "units": "m^2/s",
+      "source": "Montgomery 2022 Table 3 citing [34]",
+      "status": "transcribed"
+    },
+    "D_R_solid": {
+      "value": 1.00e-14,
+      "units": "m^2/s",
+      "source": "Montgomery 2022 Table 3",
+      "status": "transcribed"
+    },
+    "D_O_liquid": {
+      "value": 1.00e-11,
+      "units": "m^2/s",
+      "source": "Montgomery 2022 Table 3 citing [55]",
+      "status": "transcribed"
+    },
+    "D_O_solid": {
+      "value": 1.00e-14,
+      "units": "m^2/s",
+      "source": "Montgomery 2022 Table 3",
+      "status": "transcribed"
+    },
+    "D_M_liquid": {
+      "value": 1.00e-10,
+      "units": "m^2/s",
+      "source": "Montgomery 2022 Table 3 (assumed in paper, same order as other species)",
+      "status": "transcribed"
+    },
+    "D_M_solid": {
+      "value": 1.00e-14,
+      "units": "m^2/s",
+      "source": "Montgomery 2022 Table 3 (assumed in paper)",
+      "status": "transcribed"
+    }
+  }
+}

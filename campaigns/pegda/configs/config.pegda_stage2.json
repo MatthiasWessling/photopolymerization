@@ -1,0 +1,17 @@
+{
+  "campaign": "pegda",
+  "stage": "stage2",
+  "claim": "The constant-rate fork recovers Slutzky Eq. 3 and oxygen-free QSS radicals; the conversion-dependent Montgomery RHS is not required to satisfy Eq. 3.",
+  "parameter_book": "parameter_book.montgomery_2022.json",
+  "chemistry_key_required": "montgomery_2022_pegda250_irgacure819",
+  "solver": {
+    "t_end_s": 15.0,
+    "I_W_m2": 64.0,
+    "t_skip_qss_s": 0.5
+  },
+  "gates": {
+    "slutzky_rtol": 1e-4,
+    "qss_rtol": 5e-3,
+    "montgomery_must_exceed_constant": true
+  }
+}

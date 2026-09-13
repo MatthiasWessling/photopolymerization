@@ -1,0 +1,101 @@
+\chapter{What would constitute a literature match}
+\label{ch:matching}
+
+A stage may be retagged \tagmatch{} only when a \emph{named number} from a \emph{named figure or table}, under the \emph{same formulation}, lies inside a \emph{pre-declared band}, and the validator plus journal are updated in the same commit of scientific record.
+
+Matching is not ``the curve looks like polymerization.''
+It is not transferring Montgomery $k_p$ onto a Slutzky jet.
+It is not calling $M/M_0=0.98$ a Flory gel point.
+
+\section{Recommended order}
+
+\begin{enumerate}
+  \item Stage~1 FTIR overlay (Montgomery PEGDA~$250$ / Irgacure~819).
+  \item Stage~3 measured PSF (this projector, or Meenakshisundaram's map if claiming that printer).
+  \item Stages~5 and~6 in parallel (different chemistries; no shared $k_p$).
+  \item Stage~4 last, after the PSF is honest: otherwise a wrong kernel will be absorbed into $D_R$.
+\end{enumerate}
+
+Stage~2 remains \tagvalid{}: it is an identity, not a laboratory object.
+
+\section{Stage 1}
+
+Digitize Montgomery FTIR $p(t)$ at their reported $I$ and film.
+Declare a band (for example $\max|p_{\mathrm{sim}}-p_{\mathrm{FTIR}}|<0.05$ on the illuminated window, or a tighter band on the induction time).
+Measure or independently estimate $C_{O0}$; do not hide oxygen as a free fit that also absorbs errors in $\beta$.
+Run the equal-dose pair at \emph{their} two intensities, not only at $64$ and $16\,\mathrm{W\,m^{-2}}$.
+
+In-house AVT resin is a \emph{new book}, not a Montgomery match.
+
+\section{Stage 3}
+
+Replace Eq.~7 with a camera or radiometer single-pixel map, or digitize the measured kernel in \citet{Meenakshisundaram2020} if that is the claimed device.
+If grayscale G0--G100 is claimed against Montgomery Fig.~3, transcribe their SI RGB$\to I$ calibration; do not keep the linear placeholder.
+
+\section{Stage 4}
+
+Only after Stage~3.
+Compare a print geometry they actually used (layer height, absorber loading, grayscale pair) to Fig.~7 interface width.
+Do not inflate $D_R$ to manufacture a $100$--$150\,\mu\mathrm{m}$ chemical blur that Table~3 plus an $8\,\mathrm{s}$ strip does not produce.
+
+Dendukuri PDMS-wall dead zones are a different experiment (permeable walls, different resin).
+They may become a later boundary-condition test, not a Montgomery match.
+
+\section{Stage 5}
+
+Overlay experimental $U_c(I,[\mathrm{PI}]_0)$ and fiber length versus $t_{\mathrm{uv}}/t_L$ from \citet{Slutzky2019} on the \emph{Slutzky} book.
+The numerical Fig.~3 $M/M_0\simeq0.86$ is encouraging but is still an ODE illustration until the critical-speed map is overlaid with a declared band.
+
+\section{Stage 6}
+
+Overlay $G(p)$ or $G/G_{\mathrm{ideal}}$ versus $[\mathrm{PEGDA}]_0$ from \citet{Zhu2020} on the eosin~Y aqueous gel.
+Do not call a hypothetical Montgomery $p\to\eta$ curve a Zhu match.
+
+\section{Forbidden upgrades}
+
+\begin{itemize}
+  \item Matching Stage~1 never upgrades Stage~6.
+  \item Matching Stage~5 never upgrades Stage~1.
+  \item A Jacobs working curve overlay never upgrades conversion.
+  \item A pretty $G(t)$ from mixing Type~II bleaching into Type~I rates is \taginvalid.
+\end{itemize}
+
+\chapter{Conclusions, limitations, and parked work}
+\label{ch:conclusions}
+
+\section{What this campaign established}
+
+A citable Python stack now exists in which PEGDA Type~I conversion, Gaussian projection, one-dimensional reaction--diffusion, plug flow, and loop-aware network mechanics are \emph{separate claims} with frozen books and named gates.
+Stages~0--6 are internally \tagvalid.
+The chemical ontology of Chapter~\ref{ch:background} is enforced in code: dose is not conversion; conversion is not gelation; gelation is not modulus; Type~I is not Type~II; Montgomery PEGDA~$250$ is not Slutzky PEGDA~$575$; Slutzky's $2\%$ operational gel is not Zhu $P_{\mathrm{gel}}$.
+
+The most important \emph{scientific} (not merely numerical) findings among the internal gates are:
+
+\begin{enumerate}
+  \item Equal-dose reciprocity already fails in the Montgomery closures at the two intensities tested.
+  \item Slutzky Eq.~3 is an identity of constant $k_O/k_p$ during induction, recovered both in time (Stage~2) and along a jet (Stage~5).
+  \item At Table~3 diffusivities and $8\,\mathrm{s}$, radical diffusion does not set grayscale feature size; the Gaussian PSF does.
+  \item A 20~vol\% PEGDA network with Zhu's fitted $C_0$ reaches only $\eta=0.378$ at full conversion; below $C_0$ it never gels.
+\end{enumerate}
+
+\section{Limitations}
+
+No FTIR, camera PSF, critical-speed map, or rheology overlay has been performed.
+$C_{O0}$ remains assumed.
+The Gaussian kernel and linear grayscale are placeholders.
+Stage~4 is one-dimensional.
+Stage~5 pulse lengths are kinematic.
+Stage~6 $G$ uses an assumed density for absolute pascals; only $G/G_{\mathrm{ideal}}$ is density-free.
+The Montgomery $p\to\eta$ plot is a thought experiment.
+
+The literature study is bounded by the campaign PDFs plus the classics those papers cite.
+It is not a complete review of stereolithography, CLIP, two-photon lithography, or thiol--ene materials.
+
+\section{Parked work (do not auto-start)}
+
+Full Dobson species as a production RHS; Navier--Stokes coupled to gelation; scattering; inverse DMD design; PNIPAM; thiol--ene; eosin~Y bleaching ODEs mixed into Irgacure Type~I; Jacobs depth as polymer state; four in-house reactors as extra architecture.
+
+\section{Immediate scientific next step}
+
+The first match attempt should be Stage~1: an FTIR $p(t)$ CSV on a named PEGDA / Type~I recipe, a declared error band, and a validator flag \texttt{--match} that cannot pass if the book chemistry key disagrees.
+Until that exists, cite this report as a \emph{modelling and verification} thesis, not as a materials-property paper.

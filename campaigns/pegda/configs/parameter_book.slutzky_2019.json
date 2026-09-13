@@ -1,0 +1,101 @@
+{
+  "chemistry_key": "slutzky_2019_pegda575_darocur_jet",
+  "initiator_class": "type_I",
+  "formulation_label": "PEGDA Mn=575 g/mol, 54 vol% in water, 4 vol% 2-hydroxy-2-methylpropiophenone, sheathed jet",
+  "do_not_mix_with": [
+    "montgomery_2022_pegda250_irgacure819",
+    "zhu_2020_pegda575_eosinY_TEOA",
+    "dobson_2024_hdda_irgacure819"
+  ],
+  "literature": {
+    "slutzky_2019": "10.1039/c9sm01485c",
+    "equations": "Slutzky Eqs. 1a-d, 3; Table 2; gel M/M0=0.98 (not Zhu P_gel)"
+  },
+  "gel_predicate_note": "Operational 2% double-bond conversion from Dendukuri/Slutzky. Not Macosko-Miller P_gel.",
+  "parameters": {
+    "L": {
+      "value": 2.3e-3,
+      "units": "m",
+      "source": "Slutzky 2019 Table 2, measured UV slit",
+      "status": "transcribed"
+    },
+    "kp": {
+      "value": 10.0,
+      "units": "m^3/mol/s",
+      "source": "Slutzky 2019 Table 2 (neat acrylate order of magnitude at ~2% conversion)",
+      "status": "transcribed"
+    },
+    "kt": {
+      "value": 1000.0,
+      "units": "m^3/mol/s",
+      "source": "Slutzky 2019 Table 2 lower bound; Figs. 2-3 use 10^3",
+      "status": "transcribed"
+    },
+    "ko": {
+      "value": 5.0e5,
+      "units": "m^3/mol/s",
+      "source": "Slutzky 2019 Table 2 (Decker and Jenkins)",
+      "status": "transcribed"
+    },
+    "y0": {
+      "value": 1.0,
+      "units": "mol/m^3",
+      "source": "Slutzky 2019 Table 2",
+      "status": "transcribed"
+    },
+    "phi": {
+      "value": 0.6,
+      "units": "1",
+      "source": "Slutzky 2019 Table 2 (Dendukuri et al.)",
+      "status": "transcribed"
+    },
+    "epsilon": {
+      "value": 1.6,
+      "units": "m^2/mol",
+      "source": "Slutzky 2019 Table 2 as 1.6 m^3/(mol m)",
+      "status": "transcribed"
+    },
+    "kd_ref": {
+      "value": 1.0e-3,
+      "units": "1/s",
+      "source": "Slutzky 2019 Fig. 2 (high-oxygen illustration); Table 2 range 1.3e-3-3.4e-2",
+      "status": "transcribed"
+    },
+    "Pi0_ref": {
+      "value": 200.0,
+      "units": "mol/m^3",
+      "source": "Slutzky 2019 Fig. 2; Table 2 range 131-787",
+      "status": "transcribed"
+    },
+    "M0": {
+      "value": 2104.0,
+      "units": "mol/m^3",
+      "source": "calculated: 54 vol% PEGDA-575, rho~1120 kg/m^3, f=2 acrylates; 0.54*1120/0.575*2",
+      "status": "calculated"
+    },
+    "rho_resin": {
+      "value": 1120.0,
+      "units": "kg/m^3",
+      "source": "Assumed aqueous PEGDA-575 mixture density for M0 only",
+      "status": "assumed"
+    },
+    "M_PEGDA": {
+      "value": 0.575,
+      "units": "kg/mol",
+      "source": "Slutzky 2019 experimental: Mn=575 g/mol",
+      "status": "transcribed"
+    },
+    "gel_M_over_M0": {
+      "value": 0.98,
+      "units": "1",
+      "source": "Slutzky 2019 text; Dendukuri et al. operational gelation",
+      "status": "transcribed"
+    },
+    "w_jet": {
+      "value": 4.0e-5,
+      "units": "m",
+      "source": "Slutzky 2019 w1 ~ 40 um; used only to recall Pe argument, not in ODE",
+      "status": "transcribed"
+    }
+  }
+}

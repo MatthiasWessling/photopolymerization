@@ -4,7 +4,7 @@ Staged Python solver for **PEGDA free-radical photopolymerization**: a known int
 
 This repository is the implementation of the campaign roadmap in `docs/roadmap_research_paper.md`. It is cited from the DFG proposal *Continuous-Flow Digital Lithography of Multi-Porosity Hydrogel Patches* (AVT.CVT, RWTH Aachen).
 
-**Status (2026-09-13):** the module layout and gates are specified; Stage 1 (local stiff ODE) is under implementation. No conversion field has been tagged `validated` yet. Engineering success (a green integrator) is not scientific validity.
+**Status (2026-09-13):** Stages 0–6 are `validated` internally. None are `matched` to FTIR, printed widths, \(U_c\) maps, or Zhu rheology. Parked: inverse DMD, NS–gel, Dobson production RHS.
 
 ## Why modules, not one mixed 3D code
 

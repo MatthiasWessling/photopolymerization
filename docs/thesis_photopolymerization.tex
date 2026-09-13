@@ -1,0 +1,75 @@
+\documentclass[11pt,a4paper,oneside]{report}
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{setspace}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+
+\graphicspath{{figures/}}
+\onehalfspacing
+\setlength{\parskip}{0.32em}
+\setlength{\parindent}{1.15em}
+\setlist[itemize]{topsep=0.2em,itemsep=0.12em}
+\setlist[enumerate]{topsep=0.2em,itemsep=0.12em}
+
+\newcommand{\tagproposed}{\texttt{proposed}}
+\newcommand{\tagsmoke}{\texttt{smoke-tested}}
+\newcommand{\tagvalid}{\texttt{validated}}
+\newcommand{\tagmatch}{\texttt{matched}}
+\newcommand{\taginvalid}{\texttt{invalid}}
+\newcommand{\stillreq}{\texttt{still required}}
+
+\title{Staged predictive modelling of PEGDA\\
+free-radical photopolymerization}
+\author{Matthias Wessling\\[0.4em]
+{\large Master's-thesis-style final report}\\[0.3em]
+{\normalsize AVT.CVT --- Photopolymerization modelling campaign}\\[0.2em]
+{\normalsize RWTH Aachen University}}
+\date{13 September 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent
+This report is a master's-thesis-style account of a staged campaign to predict acrylate conversion, operational gelation, and loop-aware hydrogel modulus for poly(ethylene glycol) diacrylate (PEGDA) photopolymerization without treating those quantities as a single dose number.
+The locked scientific object is chain-growth free-radical polymerization driven by a prescribed irradiance history, later a digital micromirror surface field and Beer--Lambert attenuation, later plug flow, and finally a Macosko--Miller network post-processor with intramolecular loops.
+Production Type~I kinetics follow Montgomery, Hamel, Skovran and Qi (\emph{Extreme Mechanics Letters}, 2022) for PEGDA~$250$ / Irgacure~819.
+Projection uses their Gaussian pixel kernel as a fallback, not as a measured point-spread function.
+Plug flow uses a \emph{separate} constitutive book taken from Slutzky, Stone and Nunes (\emph{Soft Matter}, 2019) for a PEGDA~$575$ jet.
+Network mechanics follow Zhu, Yang, Genin, Lu, Xu and Lin (\emph{Journal of the Mechanics and Physics of Solids}, 2020), with eosin~Y bleaching ordinary differential equations switched off.
+The high-fidelity species model of Dobson and Bowman (\emph{Advanced Functional Materials}, 2024) is a reference ontology, not the everyday right-hand side.
+
+Seven stages (0--6) were implemented in a Python package under \texttt{src/photopolymerization/}, each with a frozen configuration, forward run, named validator, tests, overview figure, and journal tag.
+As of 13~September~2026 all seven stages are internally \texttt{validated}.
+None is \texttt{matched} to Fourier-transform infrared conversion, a camera kernel, an experimental critical speed, or rheology.
+Dissolved oxygen in the Montgomery book remains \texttt{still required}.
+Internal findings that survive those caveats include failed equal-dose reciprocity in the Montgomery closures, recovery of Slutzky's oxygen--monomer identity during induction, a grayscale interface width that is dominated by the optical kernel rather than Table~3 radical diffusion on an eight-second strip, numerical agreement of a Fig.~3-style jet with $M/M_0\simeq0.86$, and a loop-reduced elastically active fraction $\eta=0.378$ at full conversion for 20~vol\% PEGDA with Zhu's fitted loop parameter.
+
+The report is not a printer manual and not a claim that in-house AVT resin equals any of the three literature formulations.
+The recommended next scientific step is a Stage~1 FTIR overlay on a named recipe with a pre-declared error band.
+\end{abstract}
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\input{thesis_ch_intro}
+\input{thesis_ch_background}
+\input{thesis_ch_literature}
+\input{thesis_ch_methods}
+\input{thesis_ch_results}
+\input{thesis_ch_matching}
+\input{thesis_ch_appendix}
+
+\bibliographystyle{unsrtnat}
+\bibliography{background_photopolymerization}
+
+\end{document}

@@ -1,0 +1,21 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Schematic chemical inventory for a free-radical PEGDA photopolymerization. Boxes are species classes, not a complete kinetic scheme. Conversion $p$ counts reacted acrylate groups; it is not yet gelation or modulus.}}{9}{figure.2.1}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Schematic only. Two protocols with the same nominal dose need not yield the same conversion when termination is bimolecular and oxygen participates \citep {Wydra2014,Lin2019,Dobson2024}. The curves are not experimental measurements.}}{13}{figure.2.2}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Left: the illumination pattern moves over a vat (scanning mask or scrolled image) while the resin is, to first approximation, still \citep {Meenakshisundaram2020}. Right: the resin flows through a fixed light window \citep {Slutzky2019}. A fluid element experiences the \emph {relative} motion of pattern and material.}}{14}{figure.2.3}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Four layers that must not be identified. Light history and species fields determine conversion $p$; $p$ and composition determine whether a sample-spanning network exists and how many chains are elastically active; modulus is a mechanical consequence of that network \citep {Zhu2020,Macosko1976,Zhong2016}.}}{16}{figure.2.4}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Locked stage ladder. Parked items (Dobson production RHS, NS--gel, inverse DMD, Type~II bleaching, Jacobs as polymer state) remain parked.}}{29}{figure.5.1}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Stage~0 provenance overview (teaching layout of the book, not an experiment).}}{30}{figure.5.2}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Stage~1 local ODE: conversion histories, equal-dose pair, and oxygen induction.}}{31}{figure.5.3}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Stage~2: oxygen--monomer identity and quasi-steady radical residual.}}{32}{figure.5.4}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Stage~3 Gaussian projection (Montgomery Eq.~7 fallback). No conversion is plotted.}}{32}{figure.5.5}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Stage~4: optical front, oxygen wall, and G0$|$G80 strip width.}}{33}{figure.5.6}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Stage~5 plug flow on the Slutzky book: conversion along $x$, $U_c$ trends, pulses.}}{34}{figure.5.7}%
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Stage~6 Macosko--Miller loops: $P_{\mathrm {gel}}(c)$, $\eta (p)$, and a hypothetical Montgomery trajectory.}}{35}{figure.5.8}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }

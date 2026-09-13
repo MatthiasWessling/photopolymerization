@@ -1,0 +1,16 @@
+{
+  "campaign": "pegda",
+  "stage": "stage3",
+  "claim": "Montgomery Eq. 7 Gaussian PSF superposition conserves the analytic pixel integral, shows inter-pixel bleed, and scan dose scales as 1/v. No chemistry.",
+  "kernel": "gaussian_montgomery_eq7",
+  "kernel_status": "fallback_not_measured_psf",
+  "sigma_m": 1.77e-5,
+  "pitch_m": 5.0e-5,
+  "I_pixel_W_m2": 41.08,
+  "I_ideal_W_m2": 64.0,
+  "grayscale_map": "linear_G0_full_G100_dark_assumed",
+  "gates": {
+    "integral_rtol": 1e-3,
+    "scan_vE_rtol": 2e-2
+  }
+}

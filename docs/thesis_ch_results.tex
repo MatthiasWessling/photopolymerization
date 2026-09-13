@@ -1,0 +1,185 @@
+\chapter{Results of the staged campaign}
+\label{ch:results}
+
+This chapter reports what the solvers actually did.
+Every numerical value is tagged by the stage that produced it.
+Internal gates that passed are \tagvalid.
+No row in Table~\ref{tab:stage-status} is \tagmatch.
+
+\begin{table}[htbp]
+\centering
+\caption{Campaign status on 13 September 2026.
+Internal \tagvalid{} is not a literature overlay.}
+\label{tab:stage-status}
+\small
+\begin{tabular}{@{}clp{7.2cm}@{}}
+\toprule
+Stage & Tag & Claim in one sentence \\
+\midrule
+0 & \tagvalid & Every Montgomery coefficient has a source or a \stillreq{} flag. \\
+1 & \tagvalid & Local Type~I ODE: dark $p=0$, failed reciprocity, oxygen induction. \\
+2 & \tagvalid & Constant-rate fork satisfies Slutzky Eq.~3 and QSS radicals. \\
+3 & \tagvalid & Gaussian pixels conserve analytic integrals; no chemistry. \\
+4 & \tagvalid & 1-D RD + Beer--Lambert: front, dead zone, PSF-dominated strip. \\
+5 & \tagvalid & Slutzky plug flow: Fig.~3 $M/M_0\simeq0.86$; $U_c$ scales with $k_d$. \\
+6 & \tagvalid & Zhu loops: $P_{\mathrm{gel}}=C_0/c$; $\eta(p=1)=0.378$ at 20~vol\%. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\textwidth]{fig_roadmap_stage_ladder.pdf}
+  \caption{Locked stage ladder.
+  Parked items (Dobson production RHS, NS--gel, inverse DMD, Type~II bleaching, Jacobs as polymer state) remain parked.}
+  \label{fig:ladder}
+\end{figure}
+
+\section{Stage 0 --- provenance before kinetics}
+
+The Montgomery book contains twenty entries with a chemistry key that forbids mixing with Zhu eosin~Y or Slutzky Einstein intensities.
+$\beta$ is stored as $\mathrm{s^2\,kg^{-1}}$ so that $\beta I$ is a frequency when $I$ is in $\mathrm{W\,m^{-2}}$; using milliwatts per square centimetre without conversion would shift photolysis by a factor of ten.
+$C_{O0}=1.0\,\mathrm{mol\,m^{-3}}$ is explicit and \stillreq.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{pegda_stage0_overview.pdf}
+  \caption{Stage~0 provenance overview (teaching layout of the book, not an experiment).}
+  \label{fig:s0}
+\end{figure}
+
+\section{Stage 1 --- local Montgomery ODE}
+
+With $I=0$, conversion remains $p=0$.
+Species stay non-negative to a BDF floor of order $10^{-14}\,\mathrm{mol\,m^{-3}}$.
+The acrylate integral residual against $\int R_p\,\mathrm{d}t$ is $\sim5\times10^{-5}$.
+Equal dose does not give equal conversion: $64\,\mathrm{W\,m^{-2}}$ for $20\,\mathrm{s}$ yields $p=0.740$, while $16\,\mathrm{W\,m^{-2}}$ for $80\,\mathrm{s}$ yields $p=0.800$.
+Oxygen delays the $p=0.02$ crossing from $0.90\,\mathrm{s}$ to $2.11\,\mathrm{s}$ under the assumed $C_{O0}$.
+
+These numbers organise the \emph{sign} of reciprocity failure \citep{Wydra2014} and oxygen induction.
+They are not a digitization of Montgomery's FTIR figure: intensity, film thickness, and dissolved oxygen of that figure were not re-fitted here.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{pegda_stage1_overview.pdf}
+  \caption{Stage~1 local ODE: conversion histories, equal-dose pair, and oxygen induction.}
+  \label{fig:s1}
+\end{figure}
+
+\section{Stage 2 --- analytic identities on a constant-rate fork}
+
+While $C_O/C_{O0}>0.05$, Slutzky Eq.~3 holds to a relative residual $1.12\times10^{-6}$ on the frozen-$k_p$ fork.
+The same residual on the full Montgomery closures is $1.10\times10^{-6}$ in that window because $k_O/k_p\sim1.9\times10^3$ and conversion is still near zero.
+The fork is chemically real later: $k_p(0.8)/k_p(0)=7\times10^{-4}$.
+With $C_{O0}=0$, the quasi-steady radical residual against $\sqrt{R_i/2k_t}$ is $2.1\times10^{-3}$ after $0.5\,\mathrm{s}$.
+
+Stage~2 is an identity test of the transcription.
+It stays \tagvalid{} by construction; there is no laboratory overlay that would make it \tagmatch{} without confusing algebra with data.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{pegda_stage2_overview.pdf}
+  \caption{Stage~2: oxygen--monomer identity and quasi-steady radical residual.}
+  \label{fig:s2}
+\end{figure}
+
+\section{Stage 3 --- Gaussian projection}
+
+On a 1201-point line, the one-dimensional pixel integral matches $I_{\mathrm{pixel}}\,2\sigma\sqrt{\pi}$ to machine precision.
+The two-dimensional integral matches $I_{\mathrm{pixel}}\,4\pi\sigma^2$ to $\sim10^{-16}$.
+A dark bitmap is identically dark.
+A ten-pixel block bleeds: edge $25.4\,\mathrm{W\,m^{-2}}$, interior $50.8\,\mathrm{W\,m^{-2}}$.
+Scan dose peaks scale as $1/v$ to $2\times10^{-2}$ relative.
+
+The integral of $I$ is \emph{not} $I_{\mathrm{pixel}}$ times the geometric pixel area $(50\,\mu\mathrm{m})^2$, because the written kernel is a Gaussian of width $\sigma$, not a top-hat of the pitch.
+G0/G100 linearity is assumed.
+A measured PSF \citep{Meenakshisundaram2020} is still required for \tagmatch.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{pegda_stage3_overview.pdf}
+  \caption{Stage~3 Gaussian projection (Montgomery Eq.~7 fallback). No conversion is plotted.}
+  \label{fig:s3}
+\end{figure}
+
+\section{Stage 4 --- reaction--diffusion and Beer--Lambert}
+
+A surface cell with $D_i=0$ reproduces Stage~1 conversion to $|\Delta p|\sim4\times10^{-6}$ at $8\,\mathrm{s}$ and $I=64\,\mathrm{W\,m^{-2}}$, so the MOL chemistry is the ODE chemistry.
+Dark sealed films conserve $\int C_M$ to a relative residual of zero.
+A cosine manufactured solution with frozen liquid $D_I$ has relative max error $6.9\times10^{-3}$.
+
+A labelled $H=200\,\mu\mathrm{m}$ film with $w=0.06$~wt\% absorber reaches optical thickness $\beta_{\mathrm{opt}}=1.50$ and $p(0)-p(H)=0.52$ at $8\,\mathrm{s}$.
+That geometry is \emph{not} Montgomery's FTIR cell.
+An oxygen Dirichlet condition at the lit face gives $p_{\mathrm{wall}}=0.0069$ versus $p_{\mathrm{mid}}=0.53$.
+
+A G0$|$G80 conversion strip has 10--90\% width $53\,\mu\mathrm{m}$, larger than $\sigma=17.7\,\mu\mathrm{m}$.
+Turning Table~3 diffusivities on versus off changes that width by only $0.21\,\mu\mathrm{m}$ at $8\,\mathrm{s}$.
+The 2--3 pixel printed interface in Montgomery Fig.~7 is therefore consistent with a \emph{PSF-dominated} blur, not with radical diffusion as the leading length.
+A campaign gate that demanded ``$D$ on $\gg$ $D$ off'' would have been scientifically false; it was replaced by ``width $>\sigma$'' plus a note.
+
+There is no coupled $x$--$z$ print grid in this stage.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{pegda_stage4_overview.pdf}
+  \caption{Stage~4: optical front, oxygen wall, and G0$|$G80 strip width.}
+  \label{fig:s4}
+\end{figure}
+
+\section{Stage 5 --- Slutzky plug flow}
+
+High-oxygen Fig.~2 parameters at $U=0.003\,\mathrm{m\,s^{-1}}$ keep $\min M/M_0=1.00$ (no gel under the 2\% predicate).
+Low-oxygen Fig.~3 parameters reach $\min M/M_0=0.863$, against the paper's quoted $\simeq0.86$.
+Eq.~3 along $x$ has residual $7.9\times10^{-7}$.
+At $U=1\,\mathrm{m\,s^{-1}}$ the jet exits unconverted.
+Quadrupling $k_d$ raises $U_c$ from $0.0018$ to $0.0072\,\mathrm{m\,s^{-1}}$; doubling $[\mathrm{PI}]_0$ raises $U_c$ from $0.0023$ to $0.0045\,\mathrm{m\,s^{-1}}$.
+
+Pulse ``fiber'' lengths in the overview figure are $U t_{\mathrm{uv}}$, a kinematic construction, not a measured fiber campaign.
+Wall oxygen diffusion is off, following their $\sqrt{Dt}\ll w_1$ argument.
+The gel predicate is Slutzky's $M/M_0=0.98$, not Zhu $P_{\mathrm{gel}}$.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{pegda_stage5_overview.pdf}
+  \caption{Stage~5 plug flow on the Slutzky book: conversion along $x$, $U_c$ trends, pulses.}
+  \label{fig:s5}
+\end{figure}
+
+\section{Stage 6 --- Zhu network post-processor}
+
+At $20$~vol\% PEGDA, $P_{\mathrm{gel}}=C_0/c=0.1725$.
+If $c\le C_0$, $\eta(p=1)=0$: the precursor cannot gel.
+The no-loop identity $\eta=p^2$ holds.
+With loops at $20$~vol\% and $p=1$, $\eta=0.378=G/G_{\mathrm{ideal}}$.
+Pregel $\eta=0$ for $p<P_{\mathrm{gel}}$.
+$P_{\mathrm{gel}}=0.173$ is not Slutzky's 2\% double-bond operational gel.
+
+Passing a Montgomery $p(t)$ through $\eta$ is labelled hypothetical: Irgacure Type~I conversion is not eosin~Y Type~II conversion.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.95\textwidth]{pegda_stage6_overview.pdf}
+  \caption{Stage~6 Macosko--Miller loops: $P_{\mathrm{gel}}(c)$, $\eta(p)$, and a hypothetical Montgomery trajectory.}
+  \label{fig:s6}
+\end{figure}
+
+\section{Cross-stage reasonability}
+
+Taken together, the stack behaves like photopolymerization rather than like a random ODE:
+
+\begin{itemize}
+  \item Dark resin does not convert.
+  \item Oxygen delays conversion; fast flow can prevent gel under an operational $2\%$ threshold.
+  \item Equal dose is not equal $p$ once $k_t$ is bimolecular and conversion-dependent.
+  \item Pixels bleed; scan dose falls as $1/v$.
+  \item Optically thick films convert more at the lit face; a Dirichlet $\mathrm{O}_2$ wall stays almost unconverted.
+  \item Dilute PEGDA need not gel at $p=1$ if loops consume junctions.
+\end{itemize}
+
+None of those statements licenses transferring a fitted number across books.
+
+\section{Tests}
+
+As of Stage~6, \texttt{python3 -m pytest campaigns/pegda/tests -q} reports 29 passed.
+Validators print \texttt{OVERALL PASS} on both \texttt{--smoke} and full modes for Stages~0--6.
+Outputs under \texttt{outputs/pegda\_stage$N$\_out/} are gitignored; figures under \texttt{docs/figures/} are the citable lab plots.

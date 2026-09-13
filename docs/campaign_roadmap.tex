@@ -557,10 +557,60 @@ Inverse DMD & Stage~4 grayscale widths \tagmatch{} & target $\eta$ maps \\
 
 \section{Immediate next action}
 
-Open \textbf{Stage~0} (parameter book) and \textbf{Stage~1} (local constitutive response) only.
-Do not scaffold Stages~3--6 until Stage~1 is \tagvalid{} and Stage~2 identities have been attempted.
+The planned Stages~0--6 ladder is complete (13 September 2026).
+Parked items (moving pattern, Eulerian markers, Dobson free volume, energy equation, inverse DMD) stay parked until a new request.
 
-All claims in this document remain \tagproposed{} until those gates exist in the laboratory record.
+\paragraph{Stage 0 evidence.}
+\texttt{validated} for the bookkeeping claim.
+Twenty-plus parameters (kinetics, Table~1 optics, Table~3 $D_i$); $C_{O,0}$ remains \stillreq.
+
+\paragraph{Stage 1 evidence.}
+\texttt{validated} for internal constitutive gates.
+Not \tagmatch{} to FTIR.
+
+\paragraph{Stage 2 evidence.}
+\texttt{validated} for analytic identities on the \emph{constant-rate fork}:
+Slutzky Eq.~3 residual $1.1\times 10^{-6}$; oxygen-free QSS residual $2.1\times 10^{-3}$ after $0.5\,\mathrm{s}$.
+The conversion-dependent Montgomery RHS is \emph{not} required to obey Eq.~3 at high $p$; during the oxygen window $p\approx 0$ so Eq.~3 also holds there (logged, not a fail).
+Not \tagmatch{} to experiment.
+
+\paragraph{Stage 3 evidence.}
+\texttt{validated} for Montgomery Eq.~7 Gaussian fallback: 1-D/2-D pixel integrals match the analytic $2\sigma\sqrt{\pi}$ and $4\pi\sigma^2$ forms; dark bitmap; ten-pixel bleed; scan $\max(E)v$ independent of $v$.
+Not \tagmatch{} to a measured DMD kernel. Grayscale $I(g)$ is a linear assumption, not the SI RGB calibration.
+Jacobs working-curve depth was not used.
+
+\paragraph{Stage 4 evidence.}
+\texttt{validated} internally, not \tagmatch{} to printed geometries.
+Sealed dark $\int C_M$ residual $0$; cosine MMS relative error $6.9\times 10^{-3}$; $D_i=0$ surface cell matches Stage~1 ($|\Delta p|\sim 4\times 10^{-6}$).
+Thick-vat absorber $w=0.06$~wt\%: $\beta_{\mathrm{opt}}\approx 1.50$, $p(0)-p(H)=0.52$ at $8\,\mathrm{s}$ on $H=200\,\mu\mathrm{m}$.
+Oxygen Dirichlet at $z=0$: $p_{\mathrm{wall}}=0.007$ vs $p_{\mathrm{mid}}=0.53$.
+G0$|$G80 10--90\% width $\approx 53\,\mu\mathrm{m}>\sigma$; Table~3 $D_i$ add $0.2\,\mu\mathrm{m}$ at $8\,\mathrm{s}$ (PSF-dominated interface).
+No flow.
+
+\paragraph{Stage 5 evidence.}
+\texttt{validated} on Slutzky Table~2 chemistry (PEGDA~$575$ jet), not \tagmatch{} to their measured $U_c$ map.
+Fig.~2 high-oxygen illustration: $\min M/M_0=1.00$ (no gel).
+Fig.~3 low-oxygen: $\min M/M_0=0.863$ (crosses the operational $0.98$ predicate; paper reports $M\simeq 0.86$).
+Eq.~3 along $x$: residual $7.9\times 10^{-7}$.
+$U=1\,\mathrm{m\,s^{-1}}$: negligible conversion.
+$U_c$ scales $\propto k_d$ and $\propto[\mathrm{PI}]_0$.
+Kinematic $U t_{\mathrm{uv}}$ increases with pulse length.
+Gel predicate is $M/M_0=0.98$, not Zhu $P_{\mathrm{gel}}$.
+Montgomery rates and wall $\mathrm{O}_2$ diffusion were not used.
+
+\paragraph{Stage 6 evidence.}
+\texttt{validated} for algebraic network identities, not \tagmatch{} to Zhu rheology/indentation.
+$P_{\mathrm{gel}}=C_0/[\mathrm{PEGDA}]_0$ with $C_0=3.45$~vol\% (Table~A2).
+$[\mathrm{PEGDA}]_0\le C_0$: $\eta(p=1)=0$.
+$\theta\to 1$: $P_{\mathrm{gel}}\to 0$.
+No-loop: $\eta=p^2$.
+At 20~vol\% with loops: $\eta(p=1)=0.378<1$, $G/G_{\mathrm{ideal}}=0.378$.
+Eosin~Y bleaching ODEs off.
+A Montgomery $p(t)$ mapped through $\eta$ is labelled hypothetical.
+$k_p$ was not refit from $G$.
+Zhu $P_{\mathrm{gel}}(20\%)=0.173$ is not Slutzky's $2\%$ threshold.
+
+Parked: inverse DMD, swelling FEM, Type~II bleaching kinetics.
 
 \bibliographystyle{plainnat}
 \bibliography{background_photopolymerization}

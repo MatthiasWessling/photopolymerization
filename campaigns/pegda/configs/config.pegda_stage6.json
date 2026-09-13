@@ -1,0 +1,16 @@
+{
+  "campaign": "pegda",
+  "stage": "stage6",
+  "claim": "Zhu P_gel, eta, G are algebraic maps of p and [PEGDA]_0. No gel at or below C0. No-loop eta=p^2. Loops give G<G_ideal. Eosin Y ODEs off. Mapping a Montgomery p(t) is hypothetical.",
+  "parameter_book": "parameter_book.zhu_2020.json",
+  "chemistry_key_required": "zhu_2020_pegda575_eosinY_network",
+  "eosin_Y_bleaching_odes": "off",
+  "c_sweep_volpct": [2.0, 3.45, 5.0, 10.0, 20.0, 40.0, 80.0],
+  "c_demo_volpct": 20.0,
+  "T": 300.0,
+  "hypothetical_montgomery_map": true,
+  "gates": {
+    "eta_max": 1.0,
+    "noloop_rtol": 1e-12
+  }
+}

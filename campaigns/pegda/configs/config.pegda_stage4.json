@@ -1,0 +1,44 @@
+{
+  "campaign": "pegda",
+  "stage": "stage4",
+  "claim": "Method-of-lines plus the Stage 1 RHS, Montgomery Beer-Lambert A(p,C_I), and harmonic D_i(p) produce a depth conversion front when optically thick, an oxygen dead zone at a Dirichlet wall, and grayscale blur wider than the optical kernel. No flow.",
+  "parameter_book": "parameter_book.montgomery_2022.json",
+  "chemistry_key_required": "montgomery_2022_pegda250_irgacure819",
+  "I0_W_m2": 64.0,
+  "geometry_z": {
+    "H_m": 2.0e-4,
+    "n": 41,
+    "n_smoke": 17,
+    "note": "200 um film; not a Montgomery FTIR path length"
+  },
+  "optics_variants": {
+    "ftir_like": {"w_absorber": 0.0, "label": "no added absorber"},
+    "thick_vat": {
+      "w_absorber": 0.06,
+      "label": "Montgomery multilayer 0.06 wt% photoabsorber (Eq. 6 w as weight percent)"
+    }
+  },
+  "geometry_x": {
+    "n": 81,
+    "n_smoke": 41,
+    "n_pixels": 10,
+    "pitch_m": 5.0e-5,
+    "sigma_m": 1.77e-5,
+    "I_pixel_W_m2": 41.08
+  },
+  "solver": {
+    "method": "BDF",
+    "t_end_s": 8.0,
+    "t_end_smoke_s": 2.0,
+    "t_mms_s": 5.0,
+    "max_step_s": 0.25
+  },
+  "gates": {
+    "mass_rtol": 1.0e-6,
+    "mms_rtol": 1.0e-2,
+    "ode_match_p": 0.03,
+    "front_delta_p": 0.05,
+    "dead_zone_ratio": 0.6,
+    "blur_extra_m": 8.0e-6
+  }
+}

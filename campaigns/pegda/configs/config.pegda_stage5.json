@@ -1,0 +1,41 @@
+{
+  "campaign": "pegda",
+  "stage": "stage5",
+  "claim": "Slutzky plug-flow ODEs (Eqs. 1a-d) with their Table 2 recover fast-flow no-gel, slow-flow 2% gel, Eq. 3 along x, and Uc increasing with kd and Pi0. Not Montgomery rates. Not Zhu P_gel.",
+  "parameter_book": "parameter_book.slutzky_2019.json",
+  "chemistry_key_required": "slutzky_2019_pegda575_darocur_jet",
+  "gel_predicate": "M/M0 <= 0.98 (Slutzky/Dendukuri operational; not Zhu P_gel)",
+  "oxygen_diffusion": "off (Slutzky jet argument)",
+  "cases": {
+    "fig2_high_oxygen": {
+      "U": 0.003,
+      "kd": 0.001,
+      "Pi0": 200.0,
+      "kt": 1000.0,
+      "expect_gel": false
+    },
+    "fig3_low_oxygen": {
+      "U": 0.003,
+      "kd": 0.005,
+      "Pi0": 400.0,
+      "kt": 1000.0,
+      "expect_gel": true
+    },
+    "fast_flow": {
+      "U": 1.0,
+      "kd": 0.005,
+      "Pi0": 400.0,
+      "kt": 1000.0,
+      "expect_gel": false
+    }
+  },
+  "pulses": {
+    "t_uv_s": [0.02, 0.04, 0.08],
+    "U": 0.05
+  },
+  "gates": {
+    "eq3_rtol": 1e-4,
+    "fast_M_min": 0.995,
+    "uc_ratio_min": 1.2
+  }
+}

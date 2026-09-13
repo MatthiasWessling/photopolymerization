@@ -1,0 +1,59 @@
+\chapter{Introduction}
+\label{ch:intro}
+
+\section{Motivation}
+
+This report is a master's-thesis-style account of a staged modelling campaign for \emph{free-radical photopolymerization of poly(ethylene glycol) diacrylate} (PEGDA).
+The engineering context is continuous-flow digital lithography of multi-porosity hydrogel patches, as envisaged in the DFG proposal \emph{Continuous-Flow Digital Lithography of Multi-Porosity Hydrogel Patches} (AVT.CVT, RWTH Aachen).
+The scientific problem is older and more elementary than that device: given a known light history, and later a known flow, can one predict how many acrylate groups have reacted, whether a sample-spanning network exists, and how stiff the gel is---without treating those three questions as the same number?
+
+A machine operator can print without answering them.
+A working curve relating cure depth to the logarithm of dose \citep{Jacobs1992book} is a calibration for a given resin, lamp, and speed.
+It is not a constitutive law.
+Two parcels of resin can receive the same
+\begin{equation}
+  E = \int I(t)\,\mathrm{d}t
+\end{equation}
+and still differ in conversion $p$, gelation, and modulus, because bimolecular termination and oxygen inhibition make the outcome depend on the \emph{shape} of $I(t)$ \citep{Wydra2014,Lin2019,Dobson2024}.
+A flowing jet continuously replenishes oxygenated liquid \citep{Slutzky2019}.
+A DMD pixel is not a top-hat of light \citep{Montgomery2022,Meenakshisundaram2020}.
+A dilute PEGDA solution may never gel even at full acrylate conversion, because too many additions close loops \citep{Zhu2020}.
+
+The campaign therefore refuses a single mixed three-dimensional code on day one.
+It implements seven stages (0--6), each with a frozen configuration, a forward run, named pass/fail gates, and one evidence tag (\texttt{proposed}, \texttt{smoke-tested}, \texttt{validated}, \texttt{matched}, or \texttt{invalid}).
+As of 13 September 2026, Stages~0--6 are \tagvalid{} internally.
+None is \tagmatch{} to FTIR, a camera point-spread function, an experimental critical speed, or rheology.
+
+\section{Locked scientific object and non-goals}
+
+\paragraph{Object.}
+PEGDA \emph{chain-growth} free-radical photopolymerization: prescribed irradiance $I(t)$ maps to conversion $p$; later a DMD surface field and Beer--Lambert attenuation; later plug flow; then a loop-aware network post-processor $\eta(p,[\mathrm{PEGDA}]_0)$ and phantom modulus $G$.
+
+\paragraph{Non-goals (parked).}
+The full multi-species free-volume model of \citet{Dobson2024} as an everyday right-hand side; Navier--Stokes coupled to gelation; scattering optics; inverse DMD design; PNIPAM and thiol--ene closures; mixing eosin~Y Type~II bleaching ODEs into an Irgacure Type~I rate law; using a Jacobs working curve as the polymer state.
+
+\paragraph{Two velocities.}
+Pattern velocity $\mathbf{v}_{\mathrm{pattern}}$ (scan or mask) is independent of resin velocity $\mathbf{u}$.
+A fluid element sees $\mathbf{v}_{\mathrm{pattern}}-\mathbf{u}$ \citep{Meenakshisundaram2020,Slutzky2019}.
+
+\section{Intended reader}
+
+The text is written for a starting graduate student who knows physical chemistry and transport but need not have worked on vat photopolymerization.
+Jargon is defined once.
+Evidence tags are used in the same sense throughout: engineering success (the solver finished) is not scientific validity.
+
+\section{How this report is organised}
+
+Chapter~\ref{ch:background} is the ontology: species, rates, light, oxygen, flow, and network, and the list of quantities that must not be identified.
+Chapter~\ref{ch:literature} is a literature study of the five campaign papers and the supporting oxygen, reciprocity, and gelation literature, including the gap that the code was written to close.
+Chapter~\ref{ch:methods} describes the Python package, the campaign quartet, numerical methods, and parameter books.
+Chapter~\ref{ch:results} reports Stages~0--6 with gates, figures, and what each stage is \emph{not}.
+Chapter~\ref{ch:matching} states what would be required to retag any stage \tagmatch.
+Chapter~\ref{ch:conclusions} summarises findings, limitations, and parked work.
+
+\section{Statement of originality and limitations}
+
+No new laboratory experiment is reported.
+The contribution is a citable modelling stack with separate chemistry keys, internal gates, and an explicit refusal to mix recipes.
+Where a paper figure is reproduced only qualitatively (Montgomery Fig.~3-style Gaussians; Slutzky Figs.~2--3 illustrations), the tag remains \tagvalid, not \tagmatch.
+Publisher PDFs in \texttt{Literature/} are local-only and are not redistributed.

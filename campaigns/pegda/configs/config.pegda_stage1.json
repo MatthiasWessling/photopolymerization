@@ -1,0 +1,18 @@
+{
+  "campaign": "pegda",
+  "stage": "stage1",
+  "claim": "Prescribed I(t) maps to p(t) for Montgomery four-species ODE with kp(p), kt(p); oxygen induction and failed reciprocity are visible.",
+  "parameter_book": "parameter_book.montgomery_2022.json",
+  "chemistry_key_required": "montgomery_2022_pegda250_irgacure819",
+  "solver": {
+    "method": "BDF",
+    "rtol": 1e-7,
+    "t_end_s": 40.0
+  },
+  "protocols": {
+    "I_high_W_m2": 64.0,
+    "t_high_s": 20.0,
+    "I_low_W_m2": 16.0,
+    "t_low_s": 80.0
+  }
+}

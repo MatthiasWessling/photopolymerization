@@ -1,0 +1,122 @@
+\begin{thebibliography}{15}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Anseth et~al.(1994)Anseth, Wang, and Bowman]{Anseth1994}
+Kristi~S. Anseth, Christopher~M. Wang, and Christopher~N. Bowman.
+\newblock Kinetic evidence of reaction diffusion during the polymerization of
+  multi(meth)acrylate monomers.
+\newblock \emph{Macromolecules}, 27\penalty0 (3):\penalty0 650--655, 1994.
+\newblock \doi{10.1021/ma00081a004}.
+
+\bibitem[Cabral and Douglas(2005)]{Cabral2005}
+Jo{\~a}o~T. Cabral and Jack~F. Douglas.
+\newblock Propagating waves of network formation induced by light.
+\newblock \emph{Polymer}, 46\penalty0 (12):\penalty0 4230--4241, 2005.
+\newblock \doi{10.1016/j.polymer.2005.02.051}.
+
+\bibitem[Decker and Jenkins(1985)]{Decker1985}
+Christian Decker and Andrew~D. Jenkins.
+\newblock Kinetic approach of oxygen inhibition in ultraviolet- and
+  laser-induced polymerizations.
+\newblock \emph{Macromolecules}, 18\penalty0 (6):\penalty0 1241--1244, 1985.
+\newblock \doi{10.1021/ma00148a034}.
+
+\bibitem[Dendukuri et~al.(2008)Dendukuri, Panda, Haghgooie, Kim, Hatton, and
+  Doyle]{Dendukuri2008}
+Dhananjay Dendukuri, Priyadarshi Panda, Ramin Haghgooie, Ju~Min Kim, T.~Alan
+  Hatton, and Patrick~S. Doyle.
+\newblock Modeling of oxygen-inhibited free radical photopolymerization in a
+  {PDMS} microfluidic device.
+\newblock \emph{Macromolecules}, 41\penalty0 (22):\penalty0 8547--8556, 2008.
+\newblock \doi{10.1021/ma801219w}.
+
+\bibitem[Dobson and Bowman(2024)]{Dobson2024}
+Adam~L. Dobson and Christopher~N. Bowman.
+\newblock A comprehensive, multidimensional first-principles model for
+  free-radical photopolymerizations in bulk and thin films.
+\newblock \emph{Advanced Functional Materials}, 34\penalty0 (22):\penalty0
+  2312607, 2024.
+\newblock \doi{10.1002/adfm.202312607}.
+
+\bibitem[Jacobs(1992)]{Jacobs1992book}
+Paul~F. Jacobs.
+\newblock \emph{Rapid Prototyping \& Manufacturing: Fundamentals of
+  Stereolithography}.
+\newblock Society of Manufacturing Engineers, Dearborn, MI, 1992.
+
+\bibitem[Lin et~al.(2019)Lin, Liu, Chen, and Cheng]{Lin2019}
+Jui-Teng Lin, Hsia-Wei Liu, Kuen-Tse Chen, and Da-Chuan Cheng.
+\newblock Modeling the kinetics, curing depth, and efficacy of radical-mediated
+  photopolymerization: the role of oxygen inhibition, viscosity, and dynamic
+  light intensity.
+\newblock \emph{Frontiers in Chemistry}, 7:\penalty0 760, 2019.
+\newblock \doi{10.3389/fchem.2019.00760}.
+
+\bibitem[Macosko and Miller(1976)]{Macosko1976}
+Christopher~W. Macosko and Douglas~R. Miller.
+\newblock A new derivation of average molecular weights of nonlinear polymers.
+\newblock \emph{Macromolecules}, 9\penalty0 (2):\penalty0 199--206, 1976.
+\newblock \doi{10.1021/ma60050a003}.
+
+\bibitem[Meenakshisundaram et~al.(2020)Meenakshisundaram, Sturm, and
+  Williams]{Meenakshisundaram2020}
+Viswanath Meenakshisundaram, Logan~D. Sturm, and Christopher~B. Williams.
+\newblock Modeling a scanning-mask projection vat photopolymerization system
+  for multiscale additive manufacturing.
+\newblock \emph{Journal of Materials Processing Technology}, 279:\penalty0
+  116546, 2020.
+\newblock \doi{10.1016/j.jmatprotec.2019.116546}.
+
+\bibitem[Miller and Macosko(1976)]{Miller1976}
+Douglas~R. Miller and Christopher~W. Macosko.
+\newblock A new derivation of post gel properties of network polymers.
+\newblock \emph{Macromolecules}, 9\penalty0 (2):\penalty0 206--211, 1976.
+\newblock \doi{10.1021/ma60050a004}.
+
+\bibitem[Montgomery et~al.(2022)Montgomery, Hamel, Skovran, and
+  Qi]{Montgomery2022}
+S.~Macrae Montgomery, Craig~M. Hamel, Jacob Skovran, and H.~Jerry Qi.
+\newblock A reaction--diffusion model for grayscale digital light processing
+  {3D} printing.
+\newblock \emph{Extreme Mechanics Letters}, 53:\penalty0 101714, 2022.
+\newblock \doi{10.1016/j.eml.2022.101714}.
+
+\bibitem[Slutzky et~al.(2019)Slutzky, Stone, and Nunes]{Slutzky2019}
+Malcolm Slutzky, Howard~A. Stone, and Janine~K. Nunes.
+\newblock A quantitative study of the effect of flow on the photopolymerization
+  of fibers.
+\newblock \emph{Soft Matter}, 15\penalty0 (46):\penalty0 9553--9564, 2019.
+\newblock \doi{10.1039/c9sm01485c}.
+
+\bibitem[Tumbleston et~al.(2015)Tumbleston, Shirvanyants, Ermoshkin,
+  Janusziewicz, Johnson, Kelly, Chen, Pinschmidt, Rolland, Ermoshkin, Samulski,
+  and DeSimone]{Tumbleston2015}
+John~R. Tumbleston, David Shirvanyants, Nikita Ermoshkin, Rima Janusziewicz,
+  Ashley~R. Johnson, David Kelly, Kai Chen, Robert Pinschmidt, J.~P. Rolland,
+  Alexander Ermoshkin, Edward~T. Samulski, and Joseph~M. DeSimone.
+\newblock Continuous liquid interface production of {3D} objects.
+\newblock \emph{Science}, 347\penalty0 (6228):\penalty0 1349--1352, 2015.
+\newblock \doi{10.1126/science.aaa2397}.
+
+\bibitem[Wydra et~al.(2014)Wydra, Cramer, Stansbury, and Bowman]{Wydra2014}
+James~W. Wydra, Neil~B. Cramer, Jeffrey~W. Stansbury, and Christopher~N.
+  Bowman.
+\newblock The reciprocity law concerning light dose--relationships applied to
+  {BisGMA}/{TEGDMA} photopolymers: theoretical analysis and experimental
+  characterization.
+\newblock \emph{Dental Materials}, 30\penalty0 (6):\penalty0 605--612, 2014.
+\newblock \doi{10.1016/j.dental.2014.02.021}.
+
+\bibitem[Zhu et~al.(2020)Zhu, Yang, Genin, Lu, Xu, and Lin]{Zhu2020}
+Hongyuan Zhu, Xiaoxiao Yang, Guy~M. Genin, Tian~Jian Lu, Feng Xu, and Min Lin.
+\newblock Modeling the mechanics, kinetics, and network evolution of
+  photopolymerized hydrogels.
+\newblock \emph{Journal of the Mechanics and Physics of Solids}, 142:\penalty0
+  104041, 2020.
+\newblock \doi{10.1016/j.jmps.2020.104041}.
+
+\end{thebibliography}

@@ -1,0 +1,417 @@
+% Auto-extracted from background_photopolymerization.tex (body only)
+\chapter{Chemical and process background}
+\label{ch:background}
+
+This chapter is the chemistry and process ontology of the campaign.
+It is written for a reader with undergraduate physical chemistry and transport who has not necessarily worked on stereolithography.
+Quantitative claims about a specific PEGDA formulation remain \stillreq{} until they are taken from a named experiment or paper figure under the same recipe.
+Figures in this chapter are teaching cartoons, not experimental measurements.
+
+\section{What we are trying to predict}
+
+A photopolymerizable liquid is a mixture that stays liquid in the dark and becomes a covalently connected solid (a gel or a densely crosslinked plastic) where and when it is illuminated, provided enough of the right chemical events occur.
+The engineering goal is to \emph{place} that solid: in a vat printer, as a layer of a part; in a microfluidic channel, as a fiber or a patch; in a hydrogel, as a spatial map of stiffness.
+
+A tempting one-number description is the \emph{dose}
+\begin{equation}
+  E = \int I(t)\,\mathrm{d}t,
+  \label{eq:dose}
+\end{equation}
+where $I$ is the irradiance (energy, or moles of photons, arriving per area per time) at a point on the resin.
+Stereolithography practice has long used a threshold form of this idea: a working curve relating cure depth to $\ln(E/E_c)$ \citep{Jacobs1992book}.
+That description is useful as a machine calibration for a \emph{given} resin, optics, and speed.
+It is not a material state.
+Two parcels of resin can receive the same $E$ and still differ in how many acrylate groups have reacted, whether a sample-spanning network exists, and how stiff the gel is.
+The rest of this note explains why, by naming the chemical inventory, the competing rates, the transport of light and oxygen, and the difference between chemical conversion and a mechanically active network.
+
+\paragraph{PEGDA as the running example.}
+Poly(ethylene glycol) diacrylate (PEGDA) is a short chain with an acrylate group at each end.
+Each acrylate carries a carbon--carbon double bond that can add to a radical.
+Because there are two such groups per molecule, chain growth can connect different PEGDA molecules into a branched, then crosslinked, network \citep{Zhu2020,Montgomery2022,Slutzky2019}.
+PEGDA is \emph{not} one resin: molecular weight (for example $\approx 250$ versus $\approx 575\,\mathrm{g\,mol^{-1}}$), water content, photoinitiator, and atmosphere change both the kinetics and the gel point.
+Numbers fitted to one formulation must not be treated as universal PEGDA constants.
+
+\section{The chemical inventory}
+
+Figure~\ref{fig:species} is a cartoon of the species that matter for a typical free-radical acrylate photopolymerization.
+Light does not ``glue PEGDA together'' in one step.
+Light is absorbed by a \emph{photoinitiator}.
+The initiator produces \emph{radicals}.
+Radicals add to acrylate double bonds (\emph{propagation}), which is the step that consumes monomer and builds polymer.
+Radicals also destroy one another (\emph{termination}) and are scavenged by dissolved oxygen (\emph{inhibition}).
+Only the competition among these processes decides how much conversion occurs for a given illumination.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{fig_background_species.pdf}
+  \caption{Schematic chemical inventory for a free-radical PEGDA photopolymerization.
+  Boxes are species classes, not a complete kinetic scheme.
+  Conversion $p$ counts reacted acrylate groups; it is not yet gelation or modulus.}
+  \label{fig:species}
+\end{figure}
+
+\subsection{Photoinitiators: Type~I versus Type~II}
+
+Photoinitiators are classified by how they generate the first radicals after absorbing a photon \citep{Dadashi2016,Zhu2020}.
+
+\begin{description}
+  \item[Type~I]
+    A single molecule undergoes bond cleavage and yields (typically two) initiating radicals.
+    Irgacure~819 (phenylbis(2,4,6-trimethylbenzoyl)phosphine oxide), used by \citet{Montgomery2022} and in the illustrations of \citet{Dobson2024}, is in this class.
+    A compact description of photolysis is
+    \begin{equation}
+      \mathrm{PI} + n\,h\nu \;\longrightarrow\; 2\,R^\bullet,
+      \label{eq:typeI}
+    \end{equation}
+    with a rate proportional to the local irradiance and to the remaining initiator concentration \citep{Montgomery2022}.
+  \item[Type~II]
+    The absorber is excited to a triplet and must react with a co-initiator (often an amine) to produce radicals.
+    Eosin~Y with triethanolamine, the system of \citet{Zhu2020}, is Type~II.
+    The excited dye can also return to the ground state or be irreversibly bleached to a leuco product.
+    Bleaching therefore changes \emph{both} the initiation rate \emph{and} the optical absorption of the sample as curing proceeds.
+\end{description}
+
+These are different chemical objects.
+A rate law written for Irgacure cleavage is not interchangeable with an eosin~Y bleaching cascade, even if both are used to cure PEGDA.
+
+\subsection{Monomer, conversion, and what FTIR actually measures}
+
+Let $[M]$ be the molar concentration of unreacted acrylate \emph{functional groups} (not necessarily the concentration of PEGDA molecules).
+The degree of conversion is
+\begin{equation}
+  p(t) = 1 - \frac{[M](t)}{[M]_0}.
+  \label{eq:conversion}
+\end{equation}
+In practice $p$ is often inferred from the decay of the infrared acrylate band relative to an internal carbonyl standard \citep{Montgomery2022}.
+That measurement reports \emph{how many double bonds have disappeared}.
+It does not, by itself, report whether those additions connected two different chains or closed a loop on the same chain, nor whether the sample has gelled.
+
+\subsection{Radicals as a short-lived catalyst, not a stored dose}
+
+The radical concentration $[R^\bullet]$ is typically orders of magnitude smaller than $[M]$ or $[\mathrm{O}_2]$.
+Radicals are generated by initiation and lost by termination and inhibition.
+If generation and loss nearly balance, one may write a quasi-steady estimate such as
+\begin{equation}
+  [R^\bullet] \approx \sqrt{\frac{R_i}{2k_t}}
+  \label{eq:qss}
+\end{equation}
+in the oxygen-free, bimolecular-termination limit, with $R_i$ the initiation rate and $k_t$ the termination coefficient \citep{Zhu2020}.
+Equation~\eqref{eq:qss} is an \emph{approximation}, useful for insight.
+It fails during the first instants after the lamp is switched on, when oxygen is still abundant, and whenever $k_t$ itself depends strongly on conversion.
+Keeping the radical balance as a genuine time-dependent equation is therefore a modelling choice with chemical meaning: one refuses to assume that radicals forget their recent history \citep{Montgomery2022,Dobson2024,Slutzky2019}.
+
+\subsection{Oxygen as a reagent, not a correction factor}
+
+Molecular oxygen reacts rapidly with carbon-centred radicals to give comparatively unreactive peroxy species \citep{Decker1985,Dendukuri2008,Slutzky2019,Montgomery2022}:
+\begin{equation}
+  P^\bullet + \mathrm{O}_2 \;\longrightarrow\; P\mathrm{OO}^\bullet.
+  \label{eq:oxygen}
+\end{equation}
+Until the local oxygen inventory is depleted, propagation cannot compete.
+This has two engineering consequences.
+
+First, there is an \emph{induction period}: illumination can proceed with almost no conversion while dissolved oxygen is consumed.
+Second, oxygen is \emph{replenished} by diffusion from an interface (air, an oxygen-permeable window such as PDMS, or a flowing liquid that has not yet been illuminated).
+\citet{Dendukuri2008} showed that in a PDMS microfluidic device the oxygen leaking through the elastomer sets a dead zone and a delay that cannot be read from a well-mixed bottle experiment.
+\citet{Tumbleston2015} turned a persistent oxygen-inhibited liquid layer into a manufacturing feature (continuous liquid interface production).
+The ontology point is the same: $\mathrm{O}_2$ is a transported chemical field with sources at boundaries, not a constant ``inhibition factor'' multiplying the dose.
+
+\section{The kinetic skeleton (chain growth)}
+
+A minimal reaction list, following the scheme used in flow by \citet{Slutzky2019} and in grayscale printing by \citet{Montgomery2022}, is:
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Photolysis / initiation & $\mathrm{PI} \xrightarrow{h\nu} R^\bullet$ \\
+Chain initiation        & $R^\bullet + M \rightarrow P^\bullet$ \\
+Propagation             & $P^\bullet_n + M \xrightarrow{k_p} P^\bullet_{n+1}$ \\
+Bimolecular termination & $P^\bullet + P^\bullet \xrightarrow{k_t}$ dead polymer \\
+Oxygen inhibition       & $P^\bullet + \mathrm{O}_2 \xrightarrow{k_O}$ inactive \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The polymerization rate (disappearance of acrylate) is then of the form
+\begin{equation}
+  R_p = k_p\,[R^\bullet]\,[M].
+  \label{eq:Rp}
+\end{equation}
+Everything interesting is hidden in $[R^\bullet]$ and in the coefficients $k_p$ and $k_t$.
+
+\subsection{\texorpdfstring{Why $k_p$ and $k_t$ are not constants}{Why kp and kt are not constants}}
+
+As conversion rises, the mixture becomes more viscous.
+Small monomers may still diffuse when large macroradicals can no longer find each other by centre-of-mass motion.
+Termination therefore slows (\emph{autoacceleration}: the classical Trommsdorff--Norrish gel effect), while propagation later also becomes diffusion-limited (\emph{autodeceleration}).
+This picture goes back at least to analyses of diffusion-controlled termination \citep{Benson1959} and is standard in thick-film photopolymerization models \citep{Goodner2002,Anseth1994}.
+
+At still higher conversion, radicals can ``move'' by adding monomer rather than by translating: \emph{reaction-diffusion-controlled termination}, for which $k_t$ becomes proportional to $k_p[M]$ \citep{Anseth1994,Dobson2024,Montgomery2022}.
+\citet{Dobson2024} emphasize a further refinement: short and long macroradicals do not share one $k_t$, because mobility depends on chain length and on whether the radical is already attached to the gel.
+
+None of this is optional decoration if the process spans a wide conversion window.
+It \emph{is} optional if one only asks whether a dilute flowing jet has consumed enough oxygen to gel at $\sim 2\%$ double-bond conversion \citep{Slutzky2019}.
+The ontology must therefore allow \emph{reduced} kinetics for a narrowly posed question, without pretending that the reduced coefficients are the true molecular rate constants of PEGDA in every geometry.
+
+\subsection{Thiol--ene is a different polymerization}
+
+Acrylate chain growth is not the only photocurable chemistry.
+Thiol--ene reactions have a step-growth character, different oxygen tolerance, and different network statistics \citep{Cramer2001}.
+They must not be forced into the same four-species chain-growth skeleton without rewriting both the rates and the gelation criterion.
+This note keeps them out of the PEGDA object.
+
+\section{\texorpdfstring{Dose is not a state: the failure of exposure reciprocity}{Dose is not a state: the failure of exposure reciprocity}}
+
+Photographic reciprocity says that the same $E=It$ produces the same blackening.
+If photopolymerization were a one-step photoreaction with no competing second-order losses, something similar might hold for $p$.
+Free-radical polymerization is not that reaction.
+
+Bimolecular termination is second order in $[R^\bullet]$.
+Higher irradiance produces a higher radical concentration, hence a higher \emph{fraction} of radicals lost to termination rather than to propagation.
+Oxygen inhibition is also first order in $[R^\bullet]$.
+The conversion therefore depends on the \emph{shape} of $I(t)$, not only on its integral.
+
+\citet{Wydra2014} tested this on a BisGMA/TEGDMA dimethacrylate.
+At equal dose, different irradiances produced different conversions and shrinkage stresses; the system ``does not and should not be expected'' to obey a reciprocity law, because bimolecular termination dominates.
+Related kinetic analyses include the role of oxygen, viscosity, and time-varying intensity \citep{Lin2019}.
+\citet{Dobson2024} show a complementary symptom: the apparent scaling of $R_p$ with $I$ can shift from roughly $\sqrt{I}$ (classic bimolecular termination) toward a more linear $I$ dependence when oxygen makes radical loss pseudo-first-order.
+
+Figure~\ref{fig:reciprocity} is a \emph{cartoon} of that idea, not a plot of anyone's FTIR data.
+The scientific statement is: if two illumination protocols are declared equivalent because $I_1 t_1 = I_2 t_2$, one has already assumed a constitutive law that acrylates typically violate.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.82\textwidth]{fig_background_reciprocity.pdf}
+  \caption{Schematic only.
+  Two protocols with the same nominal dose need not yield the same conversion when termination is bimolecular and oxygen participates \citep{Wydra2014,Lin2019,Dobson2024}.
+  The curves are not experimental measurements.}
+  \label{fig:reciprocity}
+\end{figure}
+
+\section{Light as a field in a participating medium}
+
+Irradiance is not a property of the lamp alone.
+It is a field $I(\mathbf{x},t)$ inside an absorbing (and sometimes scattering) mixture.
+
+\subsection{Beer--Lambert attenuation that evolves with chemistry}
+
+If scattering and emission are negligible and the beam is treated as unidirectional, a steady radiative balance reduces to
+\begin{equation}
+  \frac{\partial I}{\partial z} + A(\mathbf{x},t)\,I = 0,
+  \label{eq:beer}
+\end{equation}
+with $z$ along the beam \citep{Montgomery2022}.
+The attenuation $A$ is a sum of contributions: remaining photoinitiator, unreacted monomer, polymer, and any dedicated absorber dye.
+As initiator is consumed, $A$ can fall (\emph{photobleaching}, especially for Type~II dyes \citep{Zhu2020}).
+As polymer forms, $A$ can rise if the polymer absorbs more than the monomer \citep{Montgomery2022}.
+In an optically thick sample the result is a polymerization \emph{front} that advances from the illuminated face \citep{Cabral2005,Zhu2020}.
+
+Equation~\eqref{eq:beer} is already an engineering reduction of radiative transfer.
+It is appropriate for a clear PEGDA resin.
+It is not appropriate for a ceramic-filled slurry, where scattering dominates.
+
+\subsection{Pixels, grayscale, and the point-spread function}
+
+A digital micromirror device (DMD) does not paint a perfectly sharp bitmap onto the resin.
+Each micromirror illuminates a small neighbourhood.
+\citet{Montgomery2022} represent that neighbourhood as a Gaussian and obtain the surface irradiance by summing all pixels, including grayscale (partial on-time of a mirror).
+\citet{Meenakshisundaram2020} insist that the true kernel need not be Gaussian: measured irradiance from a projection head can have a flatter core and more bleed than a first-order Gaussian, because of mirror tilt, imperfect collimation, and the relay optics \citep[citing][]{Zhou2009}.
+
+The ontology distinction:
+\begin{itemize}
+  \item the \emph{commanded bitmap} is a discrete pattern of grayscale values;
+  \item the \emph{surface irradiance} is a continuous field obtained by convolution with the optical kernel and, if the head or the image moves, by a time integral;
+  \item the \emph{in-resin irradiance} is that surface field after attenuation~\eqref{eq:beer};
+  \item the \emph{chemical conversion} is the result of the kinetic skeleton driven by the in-resin irradiance.
+\end{itemize}
+Collapsing all four into a Jacobs working curve throws away the objects one needs in order to predict grayscale gradients and overcure \citep{Montgomery2022,Meenakshisundaram2020}.
+
+\section{Two independent motions}
+
+It is easy to say ``the process is moving.''
+Two different velocities must be named (Fig.~\ref{fig:vel}).
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.98\textwidth]{fig_background_two_velocities.pdf}
+  \caption{Left: the illumination pattern moves over a vat (scanning mask or scrolled image) while the resin is, to first approximation, still \citep{Meenakshisundaram2020}.
+  Right: the resin flows through a fixed light window \citep{Slutzky2019}.
+  A fluid element experiences the \emph{relative} motion of pattern and material.}
+  \label{fig:vel}
+\end{figure}
+
+\paragraph{Pattern velocity $\mathbf{v}_{\mathrm{pattern}}$.}
+In scanning-mask projection, the projector (or the bitmap on the DMD) translates so that a large area can be addressed with a small chip \citep{Meenakshisundaram2020}.
+Frame rate, scan speed, and projected pixel pitch together decide how long a resin point sees each column of the movie.
+One can even scroll the bitmap to \emph{cancel} stage motion, so that a feature is stationary in the vat while the hardware moves.
+
+\paragraph{Material velocity $\mathbf{u}$.}
+In a microfluidic jet, oligomer is carried through a stationary UV spot of length $L$ at speed $U$ \citep{Slutzky2019}.
+The residence time in the light is $t_L = L/U$.
+If the lamp is pulsed for a duration $t_{\mathrm{uv}}$, the relevant dimensionless exposure is $t_{\mathrm{uv}}/t_L$.
+
+A material element at position $\mathbf{x}_p(t)$ with $\mathrm{d}\mathbf{x}_p/\mathrm{d}t=\mathbf{u}$ sees
+\begin{equation}
+  I_p(t) = I\bigl(\mathbf{x}_p(t),t\bigr).
+\end{equation}
+That sampled history is what the kinetic skeleton should be fed.
+Calling both ``speed'' hides whether one is moving the lamp, the mask, or the liquid.
+
+\section{Flow replenishes oxygenated resin}
+
+In a closed, stagnant film, dissolved oxygen is a finite inventory (plus whatever diffuses from the walls).
+In a continuous flow, fresh, oxygenated liquid continually enters the illumination zone.
+\citet{Slutzky2019} make this the condition for fiber formation: polymerization remains negligible until oxygen is depleted, and the critical processing speed scales with how fast photolysis can eat the incoming $\mathrm{O}_2$ inventory,
+\begin{equation}
+  U_c \sim \frac{L\,\phi\,\varepsilon I\,[\mathrm{PI}]_0}{[\mathrm{O}_2]_0},
+  \label{eq:Uc}
+\end{equation}
+up to the precise photophysical factors in their analysis.
+They also argue that, for their jet diameter and speeds, oxygen \emph{diffusion into the jet during the residence time} is a small correction relative to advection of the dissolved inventory.
+That statement is geometry-specific.
+In a thin film against PDMS, the opposite limit can hold: diffusion from the wall dominates \citep{Dendukuri2008}.
+
+The ontology: \emph{advection} and \emph{diffusion} of oxygen are different supply routes.
+A model that includes only one of them is answering a different experiment.
+
+\section{Conversion is not gelation is not modulus}
+
+Figure~\ref{fig:stack} is the single most important hierarchy in this note.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.88\textwidth]{fig_background_network_stack.pdf}
+  \caption{Four layers that must not be identified.
+  Light history and species fields determine conversion $p$; $p$ and composition determine whether a sample-spanning network exists and how many chains are elastically active; modulus is a mechanical consequence of that network \citep{Zhu2020,Macosko1976,Zhong2016}.}
+  \label{fig:stack}
+\end{figure}
+
+\subsection{Gelation}
+
+Gelation is the appearance of a sample-spanning covalently connected cluster: the weight-average molecular weight diverges \citep{Flory1941,Macosko1976}.
+For a chain-growth polymerization of a multifunctional acrylate, that can occur at \emph{low} conversion because each chain can connect many monomers.
+
+Two operational definitions in the present corpus must not be mixed without comment.
+
+\begin{itemize}
+  \item \citet{Slutzky2019} take gelation, following earlier microfluidic work, when about $2\%$ of double bonds have reacted ($[M]/[M]_0=0.98$).
+    That is a convenient kinetic threshold for ``the jet no longer behaves as a liquid'' under their conditions.
+  \item \citet{Zhu2020} compute a conversion at gelation from a recursive Macosko--Miller argument that includes intramolecular loops.
+    If $\theta$ is the probability that a reacted acrylate connected \emph{inter}molecularly rather than as a loop, then
+    \begin{equation}
+      P_{\mathrm{gel}} = \frac{1-\theta}{2\theta},
+      \qquad
+      \theta = \frac{[\mathrm{PEGDA}]_0}{[\mathrm{PEGDA}]_0 + 2C_0},
+      \label{eq:pgel}
+    \end{equation}
+    so $P_{\mathrm{gel}} = C_0/[\mathrm{PEGDA}]_0$.
+    If the precursor is more dilute than $C_0$, $P_{\mathrm{gel}}\ge 1$: the sample never gels even at full acrylate conversion, because too many additions are wasted as loops.
+\end{itemize}
+
+Both can be legitimate.
+They are not the same predicate.
+
+\subsection{Loops and elastically active density}
+
+Even after gelation, not every reacted acrylate contributes a load-bearing chain.
+An intramolecular loop links a strand to itself and does not transmit stress the way an intermolecular crosslink does \citep{Zhong2016,Zhu2020}.
+\citet{Zhu2020} construct a fractional crosslinking density $\eta$ from the probabilities that arms lead to the infinite network, and then write a phantom-network shear modulus
+\begin{equation}
+  G = \eta\,N_A\,[\mathrm{PEGDA}]_0\,k_B T.
+  \label{eq:G}
+\end{equation}
+The ideal affine or phantom network without loops is an upper bound; real PEGDA gels sit below it.
+Fitting $G$ as a smooth function of dose, skipping $\eta$, hides the concentration-dependent gel point that \citet{Zhu2020} used to design stiffness gradients.
+
+\subsection{Heat, shrinkage, and swelling}
+
+Polymerization is exothermic; thick or intensely illuminated samples heat, and rates depend on temperature \citep{Goodner2002,Dobson2024}.
+Conversion also shrinks the volume and, in hydrogels, the network later imbibes solvent.
+Those are real couplings.
+They are \emph{downstream} of a trustworthy conversion field.
+Treating them as the first objects to predict, before $p(\mathbf{x},t)$ is even defined, inverts the hierarchy of Fig.~\ref{fig:stack}.
+
+\section{How the five campaign papers partition the ontology}
+
+The local literature folder is not five versions of one model.
+Each paper owns a different layer.
+
+\begin{table}[htbp]
+\centering
+\caption{Division of labour among the five unique reports in the campaign corpus.
+``Owns'' means: this is the layer the paper actually closes with equations and experiments.
+It does not mean the other layers are false.}
+\label{tab:papers}
+\small
+\begin{tabular}{@{}p{0.28\textwidth}p{0.62\textwidth}@{}}
+\toprule
+Report & Layer owned \\
+\midrule
+\citet{Dobson2024} &
+High-resolution kinetic ontology: many species, free-volume transport, short versus long radicals, oxygen, heat, one- and three-dimensional balances.
+Chemistry illustrated on HDDA, not PEGDA.
+\\
+\citet{Montgomery2022} &
+Spatial grayscale printing: four tracked species, conversion-dependent $k_p$ and $k_t$, evolving Beer--Lambert field, pixel overlap, lateral diffusion that blurs commanded edges.
+PEGDA~$250$ / Irgacure~819.
+\\
+\citet{Meenakshisundaram2020} &
+Projection kinematics: measured (possibly non-Gaussian) pixel irradiance, scanning mask, discrete frames, dose accumulation.
+Cure profile compared to printed dimensions; chemistry is not the species skeleton above.
+\\
+\citet{Slutzky2019} &
+Flowing material through a fixed light window: advection of initiator, radicals, monomer, and oxygen; critical speed; pulse duration versus residence time.
+PEGDA~$575$ jet; oxygen diffusion into the jet argued small.
+\\
+\citet{Zhu2020} &
+Type~II eosin~Y bleaching plus conversion-to-gelation-to-modulus closure with loops.
+Frontal photopolymerization in depth.
+PEGDA~$575$ hydrogel; no advection.
+\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A predictive description of a \emph{flowing grayscale PEGDA hydrogel} needs all four chemical--physical layers---kinetics, optics, transport, network---but it should inherit each layer from the paper that actually resolved it, not average their rate constants.
+
+\section{What must not be identified}
+
+For a masters-level reader, the practical discipline is a list of forbidden equivalences.
+
+\begin{enumerate}
+  \item $E=\int I\,\mathrm{d}t$ $\not\equiv$ conversion $p$. Reciprocity fails when termination is bimolecular and oxygen participates \citep{Wydra2014,Lin2019}.
+  \item Commanded bitmap $\not\equiv$ surface irradiance $\not\equiv$ in-resin $I(\mathbf{x},t)$ \citep{Meenakshisundaram2020,Montgomery2022}.
+  \item Pattern velocity $\not\equiv$ resin velocity \citep{Meenakshisundaram2020,Slutzky2019}.
+  \item Dissolved oxygen inventory $\not\equiv$ oxygen leaking through a wall \citep{Slutzky2019,Dendukuri2008}.
+  \item Type~I photolysis $\not\equiv$ Type~II dye/amine bleaching \citep{Dadashi2016,Zhu2020,Montgomery2022}.
+  \item PEGDA~$250$ in a dry thin film $\not\equiv$ PEGDA~$575$ in water $\not\equiv$ HDDA bulk \citep{Montgomery2022,Zhu2020,Dobson2024}.
+  \item Acrylate conversion $p$ $\not\equiv$ gelation $\not\equiv$ elastically active density $\eta$ $\not\equiv$ modulus $G$ \citep{Zhu2020,Flory1941,Zhong2016}.
+  \item A $2\%$ double-bond threshold \citep{Slutzky2019} $\not\equiv$ the Macosko--Miller $P_{\mathrm{gel}}([\mathrm{PEGDA}]_0)$ \citep{Zhu2020}.
+  \item Chain-growth acrylate kinetics $\not\equiv$ thiol--ene step growth \citep{Cramer2001}.
+  \item Jacobs working-curve depth \citep{Jacobs1992book} $\not\equiv$ a species-resolved polymer state.
+\end{enumerate}
+
+\section{Implications for a predictive description}
+
+The ontology above already implies an order of questions, still without reference to implementation.
+
+\begin{enumerate}
+  \item \textbf{Local constitutive response.}
+    For a prescribed $I(t)$, how do initiator, radicals, oxygen, and acrylate evolve?
+    This is the question \citet{Dobson2024} answer at high chemical resolution and \citet{Montgomery2022} answer with four species and conversion-dependent coefficients.
+    Until this map is trusted---including an equal-dose test that is \emph{allowed to fail}---spatial complexity only conceals error.
+  \item \textbf{Optical boundary condition.}
+    What irradiance actually sits on $z=0$ as a function of bitmap, pixel kernel, and pattern motion \citep{Meenakshisundaram2020}?
+    Then, how does $A(p,[\mathrm{PI}])$ carry that field into the depth \citep{Montgomery2022,Zhu2020}?
+  \item \textbf{Transport.}
+    Which species move relative to the material?
+    Oxygen almost always does; monomer may; network-bound radicals do not \citep{Dobson2024,Montgomery2022}.
+    Is the supply advective \citep{Slutzky2019} or diffusive from a wall \citep{Dendukuri2008}?
+  \item \textbf{Network closure.}
+    Given $p$ and composition, has the sample gelled, and what is $\eta$ and $G$ \citep{Zhu2020}?
+    This step must not be used to patch kinetic coefficients.
+\end{enumerate}
+
+The campaign choice that follows from this background is conservative: treat PEGDA chain-growth as the first chemical object; treat Dobson's full species set as a \emph{reference} against which reduced $k_p(p)$ and $k_t(p)$ can be judged, not as the first process model; treat scanning projection and plug flow as two different kinematic experiments; treat Zhu's loop-aware modulus as a post-processor on conversion.
+Those are scientific restrictions, not software preferences.
+

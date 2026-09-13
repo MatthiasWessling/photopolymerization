@@ -119,7 +119,7 @@ photopolymerization/
 
 Each stage: `config` · `run` · `validate` · `pytest` · figure · journal. **Stop** after tagging evidence. Do not auto-start the next stage.
 
-### Stage 0 — Parameter book (`proposed`)
+### Stage 0 — Parameter book (`validated` 2026-09-13)
 
 **Claim:** every rate, diffusivity, and optical coefficient is traced to a paper table or an explicit “unknown — measure” flag.
 
@@ -129,7 +129,7 @@ Each stage: `config` · `run` · `validate` · `pytest` · figure · journal. **
 
 **Gates:** YAML schema; no silent `NaN` defaults; units in comments.
 
-### Stage 1 — Local stiff ODE (`proposed` → then `smoke-tested`)
+### Stage 1 — Local stiff ODE (`validated` 2026-09-13, internal gates; not `matched`)
 
 **Claim:** for prescribed $I(t)$, the four-species Montgomery RHS plus $k_p(p)$, $k_t(p)$ integrates without negative concentrations and shows an oxygen induction period.
 
@@ -158,7 +158,7 @@ p=1-C_M/C_{M,0}.
 
 **Code:** `scipy.integrate.solve_ivp` BDF/Radau, `rtol=1e-7`. Optional thermal $\dot T$ **off**.
 
-### Stage 2 — Analytic / reduced limits (`proposed`)
+### Stage 2 — Analytic / reduced limits (`validated` 2026-09-13, analytic identities; not `matched`)
 
 **Claim:** the ODE recovers known limits, not just “looks like a conversion curve.”
 
@@ -168,7 +168,7 @@ p=1-C_M/C_{M,0}.
 
 **Gates:** `np.testing.assert_allclose` on the constant-rate analytic relations.
 
-### Stage 3 — Projection engine (`proposed`)
+### Stage 3 — Projection engine (`validated` 2026-09-13, Gaussian fallback; not a measured PSF)
 
 **Claim:** a bitmap + PSF + scan produces $I_\perp(x,y,t)$ and $E_\perp=\int I_\perp\mathrm{d}t$ that conserve energy (sum of pixel powers) and, for a Gaussian PSF, match Montgomery Eq. 7.
 
@@ -176,27 +176,33 @@ p=1-C_M/C_{M,0}.
 
 **Non-goal:** cure depth from Jacobs $C_d=D_p\ln(E/E_c)$ except as a **diagnostic overlay**.
 
-### Stage 4 — 1D then 2D reaction–diffusion (`proposed`)
+### Stage 4 — 1D reaction–diffusion (`validated` 2026-09-13, internal; not matched)
 
-**Claim:** method-of-lines + same RHS + $D_i(p)$ (Montgomery harmonic liquid–solid) + Beer–Lambert reproduces (i) oxygen dead-zone at an $\mathrm{O}_2$ Dirichlet wall, (ii) lateral grayscale blur wider than the optical PSF.
+**Claim:** method-of-lines + same RHS + $D_i(p)$ (Montgomery harmonic liquid–solid) + Beer–Lambert reproduces (i) a depth conversion front when $\beta_\mathrm{opt}\gtrsim 1$, (ii) an oxygen dead-zone at an $\mathrm{O}_2$ Dirichlet wall. Lateral grayscale width exceeds optical $\sigma$ because of the Stage 3 kernel; Table 3 $D_i$ add $\ll\sigma$ at $8\,\mathrm{s}$.
 
-**Gates:** Neumann dark box conserves $\int C_M$; manufactured diffusion-only; CFL/Fourier documented; grayscale step $G_0$|$G_{80}$ transition width $> \sigma_\mathrm{pixel}$ when $D_R$ or $D_M$ on.
+**Gates:** Neumann dark box conserves $\int C_M$; manufactured diffusion-only cosine; Fourier limit documented (BDF implicit); surface cell with $D_i=0$ matches Stage 1; G0|G80 10–90% width $>\sigma$.
 
-**Solver:** 1D first (depth $z$ only), then $x$–$z$ grayscale strip. Not 3D.
+**Solver:** 1D $z$ and 1D $x$ strips. Not 3D. No $x$–$z$ coupled grid in this stage (parked until a print geometry is fixed).
 
-### Stage 5 — Plug-flow benchmark (`proposed`)
+**Non-goal:** flow (Stage 5).
 
-**Claim:** Slutzky Eqs. 1a–d as $\mathrm{d}y/\mathrm{d}x = R(y)/U$ recover $U_c$ scaling with $I$ and $C_{\mathrm{PI},0}/C_{\mathrm{O}_2,0}$ and the $t_\mathrm{uv}/t_L$ collapse for fiber length **qualitatively**. Quantitative `matched` only if we use their Table 2 numbers and gel criterion $M/M_0=0.98$.
+### Stage 5 — Plug-flow benchmark (`validated` 2026-09-13, internal; not matched)
 
-**Gates:** $U\to\infty$ ⇒ no conversion; $U\to 0$ with long $t_\mathrm{uv}$ ⇒ gel; oxygen diffusion optional (they argue $\sqrt{Dt}\ll w_1$).
+**Claim:** Slutzky Eqs. 1a–d as $\mathrm{d}y/\mathrm{d}x = R(y)/U$ recover $U_c$ scaling with $k_d$ and $[\mathrm{PI}]_0$, Fig. 2/3 gel/no-gel, and kinematic $U t_\mathrm{uv}$ for pulse length. Quantitative `matched` only against their $U_c$ figures with this book.
 
-### Stage 6 — Network post-process (`proposed`)
+**Gates:** $U\to\infty$ ⇒ no conversion; Fig. 3 chemistry at $U=0.003\,\mathrm{m\,s^{-1}}$ ⇒ $M/M_0\le 0.98$; Eq. 3 along $x$; $U_c$ increases with $k_d$ and $[\mathrm{PI}]_0$.
 
-**Claim:** given $p$ and $[\mathrm{PEGDA}]_0$, Zhu $P_\mathrm{gel}=(1-\theta)/(2\theta)$ with $\theta=[\mathrm{PEGDA}]_0/([\mathrm{PEGDA}]_0+2C_0)$ predicts no gel below $C_0$, and $G=\eta N_A [\mathrm{PEGDA}]_0 k_B T$ is below affine ideal-network $G$.
+**Gel predicate:** $M/M_0=0.98$ (operational). Not Zhu $P_\mathrm{gel}$.
 
-**Gates:** $\theta\to 1$ ⇒ $P_\mathrm{gel}\to 0$; $[\mathrm{PEGDA}]_0\le C_0$ ⇒ never gel; $\eta\le 1$.
+**Non-goal:** wall oxygen diffusion; Montgomery $k_p(p)$ in this book.
 
-**Do not** mix eosin Y bleaching kinetics into the Irgacure RHS without a chemistry flag.
+### Stage 6 — Network post-process (`validated` 2026-09-13, algebraic; not matched)
+
+**Claim:** given $p$ and $[\mathrm{PEGDA}]_0$, Zhu $P_\mathrm{gel}=C_0/[\mathrm{PEGDA}]_0$ predicts no gel at or below $C_0=3.45$ vol%, $\eta=p^2$ without loops, and $G=\eta N_A [\mathrm{PEGDA}]_0 k_B T < G_\mathrm{ideal}$ with loops.
+
+**Gates:** $\theta\to 1$ ⇒ $P_\mathrm{gel}\to 0$; $[\mathrm{PEGDA}]_0\le C_0$ ⇒ $\eta(p=1)=0$; $\eta\le 1$; Slutzky 2% ≠ Zhu $P_\mathrm{gel}$.
+
+**Do not** mix eosin Y bleaching kinetics into the Irgacure RHS. Mapping Montgomery $p(t)$ through $\eta$ is hypothetical.
 
 ### Stage 7+ (parked)
 
@@ -240,8 +246,10 @@ Moving pattern $\mathbf{v}_\mathrm{pattern}\ne 0$; Eulerian–Lagrangian markers
 ### Medium
 
 - [ ] Stage 3 Gaussian PSF (then measured PSF if a camera map exists).
-- [ ] Stage 4 1D Beer–Lambert + oxygen wall.
-- [ ] Stage 5 Slutzky integrator vs Table 2.
+- [x] Stage 4 1D Beer–Lambert + oxygen wall.
+- [x] Stage 5 plug-flow vs Slutzky Table 2.
+- [x] Stage 6 Zhu $\eta$, $G$ post-processor.
+- [ ] Same-formulation `matched` retags (FTIR, $U_c$, $G$).
 
 ### Long-term
 

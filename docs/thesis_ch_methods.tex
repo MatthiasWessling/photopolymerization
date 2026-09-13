@@ -1,0 +1,180 @@
+\chapter{Software architecture and numerical methods}
+\label{ch:methods}
+
+\section{Design principles}
+
+The package is a \emph{staged scientific solver}, not a printer controller.
+Three principles are enforced in code and in process:
+
+\begin{enumerate}
+  \item \textbf{One chemistry key per constitutive law.}
+    Montgomery Type~I PEGDA~$250$, Slutzky Type~I PEGDA~$575$ jet, and Zhu Type~II network parameters live in three JSON books.
+    A driver that needs plug flow does not import Montgomery $k_p$.
+  \item \textbf{Shared RHS where the claim is the same chemistry.}
+    Stage~4's method of lines calls the same vectorized \texttt{reaction\_rates} as Stage~1.
+    Stage~5 does \emph{not}: Slutzky's $k_d$, $k_t R^2$, and Einstein $I$ are a different stoichiometry.
+  \item \textbf{Post-processors cannot retune rates.}
+    Zhu $\eta(p)$ is a map from conversion already obtained.
+    Projection cannot emit $p$.
+\end{enumerate}
+
+Python~\texttt{>=3.9} is required.
+The installable layout is \texttt{package-dir=\{""="src"\}} in \texttt{pyproject.toml}; campaign drivers prepend \texttt{src/} to \texttt{sys.path} so a researcher can run without installing.
+Dependencies are NumPy, SciPy, and Matplotlib; tests use pytest.
+
+\section{Repository layout}
+
+The scientific kernel lives under \texttt{src/photopolymerization/}:
+
+\begin{verbatim}
+src/photopolymerization/
+  parameters.py          KineticParams, OpticalParams, books
+  kinetics/
+    rhs.py               Montgomery reaction_rates, ODE rhs
+    closures.py          p, kp(p), kt(p)
+    protocols.py         I(t) callables
+    solve.py             scipy.integrate.solve_ivp BDF
+    limits.py            QSS residual, Slutzky Eq. 3 residual
+  projection/psf.py      Gaussian pixel kernel (no chemistry)
+  rd/
+    beer.py              Beer-Lambert A(p, C_I)
+    diffusivity.py       harmonic D_i(p)
+    operators.py         1-D conservative diffusion
+    mol.py               method-of-lines RHS
+    mms.py               cosine manufactured solution
+    solve.py             BDF on stacked 4 n_z state
+  flow/
+    params.py            Slutzky jet book
+    plug.py              U dy/dx = R(y; k_d(x))
+  network/macosko.py     theta, P_gel, eta, G
+\end{verbatim}
+
+Campaign artefacts sit beside the kernel, not inside it:
+
+\begin{verbatim}
+campaigns/pegda/
+  configs/               frozen JSON per stage + three books
+  drivers/               run_*.py, validate_*.py
+  tests/                 pytest gates (29 tests as of Stage 6)
+outputs/                 gitignored CSV/HDF of a run
+docs/figures/            overview PDFs committed as lab evidence
+journal/entries/         one markdown file per stage
+\end{verbatim}
+
+\section{The campaign quartet}
+
+Every stage $N\in\{0,\ldots,6\}$ produces the same four artefacts:
+
+\begin{enumerate}
+  \item \texttt{config.pegda\_stage$N$.json} --- frozen knobs for \emph{this} claim.
+  \item \texttt{run\_pegda\_stage$N$.py} --- forward calculation and overview figure.
+  \item \texttt{validate\_pegda\_stage$N$.py} --- named gates, \texttt{OVERALL PASS} or \texttt{FAIL}.
+  \item \texttt{journal/entries/2026-09-13-pegda-stage$N$.md} --- one evidence tag.
+\end{enumerate}
+
+A pytest file \texttt{test\_pegda\_stage$N$.py} wraps the same gates so a regression cannot silently reopen a closed stage.
+The process rule is to \textbf{stop} after a stage: engineering success (no \texttt{NaN}, finite $p$) is not a licence to couple Navier--Stokes.
+
+\section{Parameter books}
+
+\subsection{Montgomery 2022 (Type~I, PEGDA 250)}
+
+File \texttt{parameter\_book.montgomery\_2022.json}.
+Initiator loading $0.1$~wt\% Irgacure~819; $\beta=2.70\times10^{-3}\,\mathrm{s^2\,kg^{-1}}$ with $I$ in $\mathrm{W\,m^{-2}}$; $m=2$.
+Table~2 closures $k_{p0}$, $k_{p,D0}$, $c_p$, $k_{t,\mathrm{SD}}$, $k_{t,\mathrm{TD0}}$, $C_{RD}$, $k_O$.
+Calculated $C_{M0}=8880\,\mathrm{mol\,m^{-3}}$, $C_{I0}=2.651\,\mathrm{mol\,m^{-3}}$.
+Dissolved oxygen $C_{O0}=1.0\,\mathrm{mol\,m^{-3}}$ is labelled \stillreq{}: it is a plausible order of magnitude, not a FTIR-fitted inventory.
+Optical Table~1 coefficients and Table~3 liquid/solid diffusivities are attached for Stage~4 only.
+
+\subsection{Slutzky 2019 (Type~I, PEGDA 575 jet)}
+
+File \texttt{parameter\_book.slutzky\_2019.json}.
+Window $L=2.3\,\mathrm{mm}$; Table~1 $k_p$, $k_t$, $k_O$; $k_d=\phi\varepsilon I$ with $I$ in Einstein~$\mathrm{m^{-2}\,s^{-1}}$.
+Gel predicate $\min M/M_0\le 0.98$.
+This book must never be mixed with Montgomery $\beta I$.
+
+\subsection{Zhu 2020 (network only)}
+
+File \texttt{parameter\_book.zhu\_2020.json}.
+$C_0=3.45$~vol\% (Table~A2, \emph{fitted}).
+Flag \texttt{eosin\_Y\_bleaching\_odes: off}.
+Phantom $G$ uses an assumed PEGDA density to convert vol\% to $\mathrm{mol\,m^{-3}}$; ratios $G/G_{\mathrm{ideal}}=\eta$ are independent of that density.
+
+\section{Time integration of the local ODE}
+
+The Stage~1 state is $y=(C_I,C_R,C_O,C_M)$.
+The system is stiff once radicals appear: photolysis and oxygen scavenging are fast relative to acrylate conversion.
+The integrator is SciPy's \texttt{solve\_ivp} with method \texttt{BDF}, relative tolerance $10^{-6}$ and absolute tolerances that keep $C_R$ from being treated as zero while it is still chemically active.
+
+A \texttt{constant\_rate=True} fork freezes $k_p=k_{p0}$ and $k_t=k_t(p=0)$.
+That fork exists only so Slutzky Eq.~3 and a quasi-steady radical residual can be tested as \emph{identities}.
+Production runs use the full $k_p(p)$, $k_t(p)$.
+
+\section{Projection without chemistry}
+
+Stage~3 evaluates Montgomery Eq.~7,
+\begin{equation}
+  I(x)=\sum_{\mathrm{on}} I_{\mathrm{pixel}}
+  \exp\Bigl(-\Bigl(\frac{x-x_0}{2\sigma}\Bigr)^2\Bigr),
+\end{equation}
+with $\sigma=17.7\,\mu\mathrm{m}$, $I_{\mathrm{pixel}}=41.08\,\mathrm{W\,m^{-2}}$, pitch $50\,\mu\mathrm{m}$.
+The 1-D integral of one Gaussian is $I_{\mathrm{pixel}}\,2\sigma\sqrt{\pi}$; the 2-D axisymmetric integral is $4\pi\sigma^2 I_{\mathrm{pixel}}$ for the written kernel.
+Linear grayscale (G0 full, G100 dark) is an \emph{assumption} for tests, not a camera calibration.
+
+\section{One-dimensional reaction--diffusion}
+
+The stacked state is length $4n_z$.
+Interior nodes use a conservative second-difference of $D_i(p)\partial_z C_i$.
+Harmonic interpolation of $D_i$ follows Montgomery Eq.~28.
+Beer--Lambert attenuation along $z$ uses
+\begin{equation}
+  A=\alpha_I C_I + p A_{\mathrm{poly}}+(1-p)A_{\mathrm{mon}}+w A_{\mathrm{abs}},
+\end{equation}
+with $w$ interpreted as weight percent as in their wording of Eq.~6.
+
+An explicit Fourier time step $H^2/(2 n_z^2 \max D_i)$ is \emph{documented} as a CFL reference; the integrator remains implicit BDF.
+A cosine manufactured solution with frozen $D_I^{\mathrm{liq}}$ checks the diffusion operator independently of chemistry.
+Sealed Neumann boundaries conserve $\int C_M$ in the dark.
+An oxygen Dirichlet node at the lit face is an inhibition-layer probe, not a CLIP printer.
+
+\section{Plug-flow marching}
+
+Stage~5 integrates
+\begin{equation}
+  U\frac{\mathrm{d}y}{\mathrm{d}x}=R\bigl(y;k_d(x)\bigr)
+\end{equation}
+with $y=(\mathrm{PI},R,y_{\mathrm{O_2}},M)$ in Slutzky's units.
+Outside $[0,L]$, $k_d=0$.
+The independent variable is $x$, not $t$; pulse lengths in the overview figure are kinematic $U t_{\mathrm{uv}}$.
+A gate that PI is frozen for $x>L$ must sample with \texttt{searchsorted}, not \texttt{argmin} of $|x-L|$ (which can still lie inside the window).
+
+\section{Network algebra}
+
+Stage~6 evaluates Zhu's looking-out construction.
+No ODE is integrated.
+Montgomery $p(t)$ may be passed through $\eta(p)$ only if the plot is labelled \emph{hypothetical}: Type~I conversion is not Type~II eosin~Y conversion.
+
+\section{Two Type~I right-hand sides that must not be merged}
+
+Montgomery and Slutzky both describe Type~I chain growth, and both use a four-component state that looks like $(C_I,C_R,C_O,C_M)$.
+They are nevertheless different constitutive laws.
+
+\paragraph{Montgomery (Stages 1 and 4).}
+Photolysis is $\mathrm{d}C_I/\mathrm{d}t=-\beta I C_I$ with $I$ in $\mathrm{W\,m^{-2}}$ and $m=2$ radicals per cleavage.
+Termination is written $2k_t C_R^2$.
+$k_p$ and $k_t$ depend on $p$.
+Time is the independent variable.
+
+\paragraph{Slutzky (Stage 5).}
+Photolysis frequency is $k_d=\phi\varepsilon I$ with $I$ in Einstein~$\mathrm{m^{-2}\,s^{-1}}$, and $k_d=0$ outside the window.
+The paper's Table~1 stoichiometry is used as written: one radical per photolysis in the radical balance, termination $k_t R^2$ without an extra factor of two.
+Rates are constant (no $k_p(p)$).
+The independent variable is $x$ at fixed $U$.
+
+A shared function name \texttt{rhs} would have been a silent recipe mix.
+The package therefore keeps \texttt{kinetics/rhs.py} and \texttt{flow/plug.py} as separate modules and refuses to load Montgomery $\beta$ into the jet book.
+
+\section{What is deliberately absent}
+
+There is no Navier--Stokes solver, no radiative transfer with scattering, no inverse grayscale optimizer, no Dobson free-volume species set in production, and no mixing of eosin bleaching into \texttt{reaction\_rates}.
+Those absences are scope locks, not unfinished TODOs of Stages~0--6.

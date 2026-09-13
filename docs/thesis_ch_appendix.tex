@@ -1,0 +1,80 @@
+\chapter{Nomenclature}
+\label{ch:nom}
+
+Symbols are SI unless a paper uses Einstein units for photon flux; those cases are flagged in the Slutzky book.
+
+\begin{table}[htbp]
+\centering
+\caption{Principal symbols.}
+\label{tab:nom}
+\small
+\begin{tabular}{@{}llp{7.4cm}@{}}
+\toprule
+Symbol & Unit & Meaning \\
+\midrule
+$I$ & $\mathrm{W\,m^{-2}}$ or Einstein $\mathrm{m^{-2}\,s^{-1}}$ & Irradiance or molar photon flux \\
+$E$ & $\mathrm{J\,m^{-2}}$ & Dose $\int I\,\mathrm{d}t$; not a material state \\
+$p$ & --- & Acrylate conversion $1-C_M/C_{M0}$ \\
+$C_I,C_R,C_O,C_M$ & $\mathrm{mol\,m^{-3}}$ & Initiator, radicals, oxygen, acrylate groups \\
+$\beta$ & $\mathrm{s^2\,kg^{-1}}$ & Montgomery photolysis coefficient \\
+$m$ & --- & Radicals per photolysis ($m=2$ Montgomery) \\
+$k_p,k_t,k_O$ & various & Propagation, termination, oxygen scavenging \\
+$A$ & $\mathrm{m^{-1}}$ & Beer--Lambert attenuation \\
+$\sigma$ & $\mathrm{m}$ & Gaussian pixel radius (Montgomery Eq.~7) \\
+$D_i(p)$ & $\mathrm{m^2\,s^{-1}}$ & Harmonic liquid--solid diffusivity \\
+$U$ & $\mathrm{m\,s^{-1}}$ & Plug speed \\
+$L$ & $\mathrm{m}$ & UV window length \\
+$k_d$ & $\mathrm{s^{-1}}$ & Slutzky photolysis frequency $\phi\varepsilon I$ \\
+$U_c$ & $\mathrm{m\,s^{-1}}$ & Critical speed for operational gel \\
+$\theta$ & --- & Intermolecular linking probability \\
+$C_0$ & vol\% & Zhu loop parameter (fitted 3.45~vol\%) \\
+$P_{\mathrm{gel}}$ & --- & $C_0/[\mathrm{PEGDA}]_0$ \\
+$\eta$ & --- & Elastically active density / $G_{\mathrm{ideal}}$ \\
+$G$ & $\mathrm{Pa}$ & Phantom shear modulus \\
+$\mathbf{v}_{\mathrm{pattern}}$ & $\mathrm{m\,s^{-1}}$ & Scan or mask velocity \\
+$\mathbf{u}$ & $\mathrm{m\,s^{-1}}$ & Resin velocity \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\chapter{Appendix: verification log and file inventory}
+\label{ch:app}
+
+\section{How to reproduce the internal gates}
+
+From the repository root, with Python~3.9+ and the dependencies in \texttt{pyproject.toml}:
+
+\begin{verbatim}
+export PYTHONPATH=src:campaigns/pegda
+python3 campaigns/pegda/drivers/validate_pegda_stage0.py
+python3 campaigns/pegda/drivers/validate_pegda_stage1.py
+python3 campaigns/pegda/drivers/validate_pegda_stage2.py
+python3 campaigns/pegda/drivers/validate_pegda_stage3.py
+python3 campaigns/pegda/drivers/validate_pegda_stage4.py
+python3 campaigns/pegda/drivers/validate_pegda_stage5.py
+python3 campaigns/pegda/drivers/validate_pegda_stage6.py
+python3 -m pytest campaigns/pegda/tests -q
+\end{verbatim}
+
+Each validator prints per-gate lines and \texttt{OVERALL PASS} or \texttt{FAIL}.
+Smoke mode \texttt{--smoke} is a shorter integration window used in continuous checks.
+
+\section{Overview figures}
+
+Committed teaching and gate figures (all under \texttt{docs/figures/}):
+
+\begin{itemize}
+  \item background species, reciprocity, two-velocity, and network-stack cartoons;
+  \item the stage-ladder diagram;
+  \item \texttt{pegda\_stage0\_overview.pdf} through \texttt{pegda\_stage6\_overview.pdf}.
+\end{itemize}
+
+\section{Journal entries}
+
+One markdown file per stage, all dated 13~September~2026, under \texttt{journal/entries/} with slugs \texttt{pegda-stage0} through \texttt{pegda-stage6}.
+This thesis does not replace those entries; it synthesises them.
+
+\section{What is gitignored}
+
+Publisher PDFs in \texttt{Literature/} and numerical dumps in \texttt{outputs/} are local.
+Do not redistribute publisher PDFs with this report.
